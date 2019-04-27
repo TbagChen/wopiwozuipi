@@ -1,0 +1,6 @@
+# Compiled class file
+*.idea
+/node_modules/
+package-lock.json
+/dist/
+.vs
