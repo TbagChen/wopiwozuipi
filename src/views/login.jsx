@@ -1,6 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import axios from 'axios'
+import UploadFile from '../components/uploadFile'
 const Login = () => {
   return <div>登录文本</div>
 }
@@ -18,7 +19,7 @@ export default class LoginComponent extends React.Component {
   }
   login(){
     console.log(this.state)
-    axios.post('https://blog.xuweijin.com/blogApi/users/login',{
+    axios.post('http://localhost:3003/blogApi/users/login',{
       userName:this.state.username,
       password:this.state.password
     }).then(res=>{
@@ -51,6 +52,7 @@ export default class LoginComponent extends React.Component {
         密码：<input type="password" name={'password'}  onChange={this.getData}/><br/>
         <button onClick={this.login}>登录</button><br/>
         没有账号，<NavLink to="/register">去注册</NavLink>
+        <UploadFile></UploadFile>
         {/*<button onClick={this.changeStatus}>
           {this.state.status?'on':'off'}
         </button>
