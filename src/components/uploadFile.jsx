@@ -58,7 +58,7 @@ export default class UploadFile extends PureComponent{
     }
 
     //此处的url应该是服务端提供的上传文件api
-    const url = 'https://www.xuweijin.com/blogApi/uploadFile';   //https://www.xuweijin.com/blogApi/uploadFile  http://localhost:3003/uploadFile
+    const url = 'http://localhost:3003/uploadFile';   //https://www.xuweijin.com/blogApi/uploadFile  http://localhost:3003/uploadFile
     let form = new FormData();
 
     //此处的file字段由上传的api决定，可以是其它值

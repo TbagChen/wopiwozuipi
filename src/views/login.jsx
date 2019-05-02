@@ -1,7 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import axios from 'axios'
-import UploadFile from '../components/uploadFile'
+import { message, Button } from 'antd'
 const Login = () => {
   return <div>登录文本</div>
 }
@@ -18,15 +18,15 @@ export default class LoginComponent extends React.Component {
     this.login = this.login.bind(this)
   }
   login(){
-    console.log(this.state)
-    axios.post('http://localhost:3003/blogApi/users/login',{
+    axios.post('http://localhost:3003/users/login',{
       userName:this.state.username,
       password:this.state.password
     }).then(res=>{
       console.log(res)
       if(res.data.code !== '200'){
-        alert(res.data.msg)
+        message.error(res.data.msg)
       }else{
+        message.success('登录成功～')
         this.props.history.push('/')
       }
     })
@@ -44,6 +44,9 @@ export default class LoginComponent extends React.Component {
       status:!prevState.status
     }))
   }
+  openMessage(){
+    message.success('成功～')
+  }
 
   render(){
     return(
@@ -51,8 +54,8 @@ export default class LoginComponent extends React.Component {
         用户名：<input type="text" name={'username'} value={this.state.username} onChange={this.getData} /><br/>
         密码：<input type="password" name={'password'}  onChange={this.getData}/><br/>
         <button onClick={this.login}>登录</button><br/>
+        <Button type="primary" onClick={this.openMessage}>Button</Button>
         没有账号，<NavLink to="/register">去注册</NavLink>
-        <UploadFile></UploadFile>
         {/*<button onClick={this.changeStatus}>
           {this.state.status?'on':'off'}
         </button>
