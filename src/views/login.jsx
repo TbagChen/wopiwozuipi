@@ -2,9 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import axios from 'axios'
 import { message, Button } from 'antd'
-const Login = () => {
-  return <div>登录文本</div>
-}
+
 export default class LoginComponent extends React.Component {
   constructor(props){
     super(props)
