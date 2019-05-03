@@ -58,7 +58,7 @@ class NormalLoginForm extends React.Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          <div className="toRegister">没有账号？ <NavLink to="/register">去注册</NavLink></div>
+          <div className="toRegister">没有账号？ <NavLink to="/register">去注册</NavLink> Or <NavLink to="/">游客登录</NavLink></div>
         </Form.Item>
       </Form>
     );

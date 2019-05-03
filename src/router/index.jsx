@@ -4,6 +4,7 @@ import LoginComponent from '../views/login'
 import registerComponent from '../views/register'
 import errorComponent from '../views/error'
 import BlogIndexComponent from '../views/blogIndex'
+import WriteBlogComponent from '../views/writeBlog'
 
 export default class IndexRouter extends React.Component{
   render(){
@@ -13,6 +14,7 @@ export default class IndexRouter extends React.Component{
           <Route exact path={"/"} component={BlogIndexComponent} />
           <Route path={"/login"} component={LoginComponent} />
           <Route path={"/register"} component={registerComponent} />
+          <Route path={"/writeBlog"} component={WriteBlogComponent} />
           <Route  component={errorComponent}/>
         </Switch>
       </Router>

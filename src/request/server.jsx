@@ -24,9 +24,9 @@ class CreateFetch {
             method: 'GET',
             cache: 'no-cache',
             mode: 'cors',
-            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json'
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
             }
         }
         let list = [];
