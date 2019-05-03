@@ -6,7 +6,9 @@ import './themes/themes.scss'
 export default class AppComponent extends React.Component{
   render(){
     return(
-      <IndexRouter />
+      <div className={'body-wrap'}>
+        <IndexRouter />
+      </div>
     )
 
   }
