@@ -122,7 +122,6 @@ input {
 
 #root {
   @include absolute(0, 0, 0, 0);
-  overflow: hidden;
 }
 
 @mixin overflow($val: auto) {

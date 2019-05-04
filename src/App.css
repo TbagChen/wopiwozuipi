@@ -3,7 +3,10 @@ body{
   min-width: 1000px;
 }
 .body-wrap{
-  width: 1000px;
   height: 100%;
+  margin: 0 auto;
+}
+.layout-wrap{
+  width: 1000px;
   margin: 0 auto;
 }

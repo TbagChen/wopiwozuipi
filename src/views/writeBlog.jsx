@@ -15,11 +15,11 @@ class WriteBlog extends React.Component{
   componentDidMount () {
     this.getTagList()
     // 异步设置编辑器内容
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.props.form.setFieldsValue({
         content: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
       })
-    }, 1000)
+    }, 1000)*/
   }
 
   handleSubmit = (event) => {

@@ -1,0 +1,18 @@
+.header-wrap-big{
+  height: 60px;
+  line-height: 60px;
+  background: #e5e5e5;
+  .header-wrap{
+    width: 1000px;
+    margin: 0 auto;
+    .header-left{
+      float: left;
+    }
+    .header-right{
+      float: right;
+      .mr-20{
+        margin-right: 20px;
+      }
+    }
+  }
+}

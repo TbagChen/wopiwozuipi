@@ -8,10 +8,11 @@ export default class Layout extends React.Component{
 
   render(){
     return(
-      <div className="layout-wrap">
+      <div className="layout-wrap-big">
         <Header></Header>
-        1233
-        {this.props.children}
+        <div className="layout-wrap">
+          {this.props.children}
+        </div>
       </div>
     )
   }
