@@ -1,6 +1,7 @@
 import React from 'react'
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import LoginComponent from '../views/login'
+import LayoutComponent from '../views/layout'
 import registerComponent from '../views/register'
 import errorComponent from '../views/error'
 import BlogIndexComponent from '../views/blogIndex'
@@ -11,11 +12,15 @@ export default class IndexRouter extends React.Component{
     return(
       <Router>
         <Switch>
-          <Route exact path={"/"} component={BlogIndexComponent} />
           <Route path={"/login"} component={LoginComponent} />
           <Route path={"/register"} component={registerComponent} />
-          <Route path={"/writeBlog"} component={WriteBlogComponent} />
-          <Route  component={errorComponent}/>
+          <Route path="/" render={({history,location,match}) => (
+            <LayoutComponent history={history} location={location} match={location}>
+              <Route path="/" exact component={BlogIndexComponent} />
+              <Route path="/writeBlog" exact component={WriteBlogComponent} />
+            </LayoutComponent>
+          )} />
+          <Route component={errorComponent}/>
         </Switch>
       </Router>
     )

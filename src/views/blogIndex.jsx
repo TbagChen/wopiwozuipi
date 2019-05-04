@@ -43,6 +43,7 @@ export default class BlogIndexComponent extends React.Component{
             })
           }
         </ul>
+        {this.props.children}
       </div>
     )
   }

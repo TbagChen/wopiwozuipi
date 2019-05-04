@@ -1,5 +1,6 @@
 import React from 'react'
 import 'braft-editor/dist/index.css'
+import '../themes/article/writeBlog.scss'
 import BraftEditor from 'braft-editor'
 import { Form, Input,Select, Button, message } from 'antd'
 const { Option } = Select;
@@ -12,20 +13,18 @@ class WriteBlog extends React.Component{
     }
   }
   componentDidMount () {
-
+    this.getTagList()
     // 异步设置编辑器内容
     setTimeout(() => {
       this.props.form.setFieldsValue({
         content: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
       })
     }, 1000)
-
   }
 
   handleSubmit = (event) => {
 
     event.preventDefault()
-
     this.props.form.validateFields((error, values) => {
       if (!error) {
         const submitData = {
@@ -57,12 +56,9 @@ class WriteBlog extends React.Component{
       })
     })
   }
-  componentDidMount(){
-    this.getTagList()
-  }
   render(){
     const { getFieldDecorator } = this.props.form
-    const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator', 'media' ]
+    //const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator', 'media' ]
     return(
       <div className="writeBlog-wrap">
         <Form onSubmit={this.handleSubmit}>
@@ -73,7 +69,7 @@ class WriteBlog extends React.Component{
                 message: '请输入标题',
               }],
             })(
-              <Input size="large" placeholder="请输入标题"/>
+              <Input placeholder="请输入标题"/>
             )}
           </Form.Item>
           <Form.Item  label="文章标签">
@@ -108,13 +104,12 @@ class WriteBlog extends React.Component{
             })(
               <BraftEditor
                 className="my-editor"
-                controls={controls}
                 placeholder="请输入正文内容"
               />
             )}
           </Form.Item>
           <Form.Item>
-            <Button size="large" type="primary" htmlType="submit">提交</Button>
+            <Button size="large" type="primary" htmlType="submit">发布</Button>
           </Form.Item>
         </Form>
       </div>

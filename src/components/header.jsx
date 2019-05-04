@@ -1,4 +1,5 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 
 export default class Header extends React.Component {
   constructor(props){
@@ -8,9 +9,11 @@ export default class Header extends React.Component {
     return(
       <div className="header-wrap-big">
         <div className="header-wrap">
-          <div className="header-left"></div>
+          <div className="header-left">
+            <NavLink to={'/'}>鲨鱼辣椒</NavLink>
+          </div>
           <div className="header-right">
-            
+            头部右侧
           </div>
         </div>
       </div>
