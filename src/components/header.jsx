@@ -10,6 +10,7 @@ export default class Header extends React.Component {
     this.state = {
       loginInfo:''
     }
+    this.logout = this.logout.bind(this)
   }
   componentDidMount(){
     if(Cookies.get('loginInfo')){
@@ -17,6 +18,10 @@ export default class Header extends React.Component {
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
+  }
+  logout(){
+    Cookies.remove('loginInfo')
+    this.props.props.history.push('/login')
   }
   render(){
     const menu = (
@@ -28,7 +33,7 @@ export default class Header extends React.Component {
           <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">设置</a>
         </Menu.Item>
         <Menu.Item>
-          <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出</a>
+          <a onClick={this.logout} rel="noopener noreferrer" href="javascript:;">退出</a>
         </Menu.Item>
       </Menu>
     )
@@ -56,8 +61,9 @@ export default class Header extends React.Component {
           <div className="header-right">
             <div>
               {
-                this.state.loginInfo == ''?(
+                this.state.loginInfo === ''?(
                   <div>
+                    <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
                     <NavLink className="mr-20" to={'/login'}>登录</NavLink>
                     <NavLink to={'/register'}>注册</NavLink>
                   </div>

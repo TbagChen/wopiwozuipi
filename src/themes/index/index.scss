@@ -1,7 +1,11 @@
 .blog-ul{
+  background: #fff;
+  margin-top: 20px;
+  padding: 0px 20px 30px;
   .li-wrap{
     padding: 20px 0px;
     border-bottom: 1px solid #d9d9d9;
+    cursor: pointer;
     .li-top{
       color: #666;
       font-size:12px;
@@ -17,6 +21,9 @@
       font-size: 14px;
       color: #333;
       line-height: 24px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
   }
 }

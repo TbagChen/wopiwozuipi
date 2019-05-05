@@ -42,6 +42,8 @@ const utils = {
     if(t === 'YMD'){
       return Y+'-'+M+'-'+D
     }
+    if(t === 'TYMD'){}
+    return Y+'年'+M+'月'+D+'日'
   },
   //补位函数。
   extra(x) {

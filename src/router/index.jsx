@@ -6,6 +6,7 @@ import registerComponent from '../views/register'
 import errorComponent from '../views/error'
 import BlogIndexComponent from '../views/blogIndex'
 import WriteBlogComponent from '../views/writeBlog'
+import blogDetailComponent from '../views/blogDetail'
 
 export default class IndexRouter extends React.Component{
   render(){
@@ -18,6 +19,7 @@ export default class IndexRouter extends React.Component{
             <LayoutComponent history={history} location={location} match={location}>
               <Route path="/" exact component={BlogIndexComponent} />
               <Route path="/writeBlog" exact component={WriteBlogComponent} />
+              <Route path="/blogDetail/:article_id" exact component={blogDetailComponent} />
             </LayoutComponent>
           )} />
           <Route component={errorComponent}/>

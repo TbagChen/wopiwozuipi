@@ -23,7 +23,6 @@ class WriteBlog extends React.Component{
   }
 
   handleSubmit = (event) => {
-
     event.preventDefault()
     this.props.form.validateFields((error, values) => {
       if (!error) {
