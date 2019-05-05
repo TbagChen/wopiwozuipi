@@ -2,7 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import '../themes/index/header.scss'
 import Cookies from 'js-cookie'
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button, Avatar } from 'antd';
 
 export default class Header extends React.Component {
   constructor(props){
@@ -19,6 +19,19 @@ export default class Header extends React.Component {
     }
   }
   render(){
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">我的主页</a>
+        </Menu.Item>
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">设置</a>
+        </Menu.Item>
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出</a>
+        </Menu.Item>
+      </Menu>
+    )
     return(
       <div className="header-wrap-big">
         <div className="header-wrap">
@@ -49,7 +62,9 @@ export default class Header extends React.Component {
                     <NavLink to={'/register'}>注册</NavLink>
                   </div>
                 ):(
-                  '已登陆'
+                  <Dropdown overlay={menu} placement="bottomCenter">
+                    <Avatar size="large" icon="user" />
+                  </Dropdown>
                 )
               }
             </div>
