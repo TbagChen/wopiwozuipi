@@ -1,12 +1,54 @@
 .header-wrap-big{
   height: 60px;
   line-height: 60px;
-  background: #e5e5e5;
+  background: #fbfbfb;
   .header-wrap{
     width: 1000px;
     margin: 0 auto;
     .header-left{
       float: left;
+      height: 60px;
+      overflow: hidden;
+      .text-wrap{
+        display: inline-block;
+        width: 130px;
+        height: 60px;
+        margin-top: 12px;
+      }
+      .text{
+        font-size: 32px;
+        text-transform: uppercase;
+        fill: none;
+        stroke-width: 1px;
+        stroke-dasharray: 90 310;
+        animation: stroke 6s infinite linear;
+      }
+      .text-1{
+        stroke: #3498db;
+        text-shadow: 0 0 1px #3498db;
+        animation-delay: -1.5s;
+      }
+      .text-2{
+        stroke: #f39c12;
+        text-shadow: 0 0 1px #f39c12;
+        animation-delay: -3s;
+      }
+      .text-3{
+        stroke: #e74c3c;
+        text-shadow: 0 0 1px #e74c3c;
+        animation-delay: -4.5s;
+      }
+      .text-4{
+        stroke: #9b59b6;
+        text-shadow: 0 0 1px #9b59b6;
+        animation-delay: -6s;
+      }
+
+      @keyframes stroke {
+        100% {
+          stroke-dashoffset: -400;
+        }
+      }
     }
     .header-right{
       float: right;

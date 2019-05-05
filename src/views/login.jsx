@@ -2,10 +2,11 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import { message, Form, Icon, Input, Button, Checkbox, } from 'antd'
 import '../themes/register/login.scss'
+import Cookies from 'js-cookie'
+
 class NormalLoginForm extends React.Component {
   constructor(props){
     super(props)
-    console.log(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleSubmit(e){
@@ -22,7 +23,9 @@ class NormalLoginForm extends React.Component {
             message.error(res.msg)
           }else{
             message.success('登录成功～')
+            Cookies.set('loginInfo',res.data)
             this.props.parentProps.history.push("/");
+            console.log(Cookies.get('loginInfo'))
           }
         })
       }
@@ -77,6 +80,7 @@ export default class LoginComponent extends React.Component {
       arr:[1,2,3,4],
       form:''
     }
+    this.setCookie = this.setCookie.bind(this)
     this.changeStatus = this.changeStatus.bind(this)
     this.getData = this.getData.bind(this)
     this.login = this.login.bind(this)
@@ -92,6 +96,7 @@ export default class LoginComponent extends React.Component {
         message.error(res.msg)
       }else{
         message.success('登录成功～')
+        //cookie.save('loginInfo',res.data,{path:'/'})
         this.props.history.push('/')
       }
     })
@@ -133,10 +138,17 @@ export default class LoginComponent extends React.Component {
       }
     });
   }
+  setCookie(){
+
+    //const { cookies } = this.props;
+    console.log(Cookies)
+    Cookies.set('loginInfo','123',{path:'/'})
+  }
   render(){
     return(
       <div>
         <WrappedNormalLoginForm parentProps = {this.props} />
+        <Button onClick={this.setCookie}>cookie</Button>
         {/*用户名：<input type="text" name={'username'} value={this.state.username} onChange={this.getData} /><br/>
         密码：<input type="password" name={'password'}  onChange={this.getData}/><br/>
         <button onClick={this.login}>登录</button><br/>
