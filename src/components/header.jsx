@@ -63,14 +63,16 @@ export default class Header extends React.Component {
               {
                 this.state.loginInfo === ''?(
                   <div>
-                    <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
                     <NavLink className="mr-20" to={'/login'}>登录</NavLink>
                     <NavLink to={'/register'}>注册</NavLink>
                   </div>
                 ):(
-                  <Dropdown overlay={menu} placement="bottomCenter">
-                    <Avatar size="large" icon="user" />
-                  </Dropdown>
+                  <div>
+                    <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
+                    <Dropdown trigger={['click']} overlay={menu} placement="bottomCenter">
+                      <Avatar size="large" icon="user" />
+                    </Dropdown>
+                  </div>
                 )
               }
             </div>

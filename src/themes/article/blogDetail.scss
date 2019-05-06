@@ -2,6 +2,10 @@
   padding: 20px 20px 30px;
   background: #fff;
   margin-top: 20px;
+  .load-wrap{
+    text-align: center;
+    padding: 40px 0;
+  }
   .author-wrap{
     float: left;
     height: 40px;
@@ -33,6 +37,9 @@
   .content-wrap{
     width: 100%;
     overflow: hidden;
+    img{
+      display: inline-block;
+    }
   }
   .title{
     margin-top: 20px;

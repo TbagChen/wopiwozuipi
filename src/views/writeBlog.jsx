@@ -89,7 +89,6 @@ class WriteBlog extends React.Component{
           </Form.Item>
           <Form.Item label="文章正文">
             {getFieldDecorator('content', {
-              validateTrigger: 'onBlur',
               rules: [{
                 required: true,
                 validator: (_, value, callback) => {
