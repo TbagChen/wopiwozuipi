@@ -13,6 +13,9 @@ const APICONFIG = {
   },
   publish:{  //发布文章
     path:'/users/publish'
+  },
+  getArticleById:{
+    path:'/article/getArticleById'
   }
 }
 

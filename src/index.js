@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import fetch from './request/server'
+import utils from './utils/index'
 
 import App from './app.jsx';
 import * as serviceWorker from './serviceWorker';
 
 window.fetch = fetch
+window.$utils = utils
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -10,10 +10,9 @@ class CreateFetch {
     constructor() {
         let host = window.location.href;
         host = host.toLocaleLowerCase();
-        if (host.match('www.zbgedu.com')) {
-            this.host = 'https://api.zbgedu.com'
-        } else if (host.match('demo.zbgedu.com')) {
-            this.host = 'https://apiDemo.zbgedu.com'
+        console.log(host)
+        if (host.match('xuweijin.com')) {
+            this.host = 'https://www.xuweijin.com/blogApi'
         } else {
             this.host = 'http://localhost:3003'
         }

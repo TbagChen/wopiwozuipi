@@ -23,7 +23,6 @@ class WriteBlog extends React.Component{
   }
 
   handleSubmit = (event) => {
-
     event.preventDefault()
     this.props.form.validateFields((error, values) => {
       if (!error) {
@@ -90,7 +89,6 @@ class WriteBlog extends React.Component{
           </Form.Item>
           <Form.Item label="文章正文">
             {getFieldDecorator('content', {
-              validateTrigger: 'onBlur',
               rules: [{
                 required: true,
                 validator: (_, value, callback) => {

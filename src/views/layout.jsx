@@ -5,11 +5,13 @@ export default class Layout extends React.Component{
   constructor(props){
     super(props)
   }
-
+  componentWillMount(){
+    console.log(this.props)
+  }
   render(){
     return(
       <div className="layout-wrap-big">
-        <Header></Header>
+        <Header props={this.props}></Header>
         <div className="layout-wrap">
           {this.props.children}
         </div>
