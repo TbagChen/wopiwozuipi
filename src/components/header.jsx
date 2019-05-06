@@ -28,15 +28,15 @@ export default class Header extends React.Component {
                 <text textAnchor="middle" x="50%" y="50%" className="text text-1">
                   鲨鱼辣椒
                 </text>
-                <text textAnchor="middle" x="50%" y="50%" className="text text-2">
+                {/* <text textAnchor="middle" x="50%" y="50%" className="text text-2">
                   鲨鱼辣椒
-                </text>
-                <text textAnchor="middle" x="50%" y="50%" className="text text-3">
+                </text> */}
+                {/* <text textAnchor="middle" x="50%" y="50%" className="text text-3">
                   鲨鱼辣椒
                 </text>
                 <text textAnchor="middle" x="50%" y="50%" className="text text-4">
                   鲨鱼辣椒
-                </text>
+                </text> */}
               </svg>
             </NavLink>
           </div>
@@ -49,7 +49,9 @@ export default class Header extends React.Component {
                     <NavLink to={'/register'}>注册</NavLink>
                   </div>
                 ):(
-                  '已登陆'
+                  <div>
+                    <NavLink to={'/PersonalCenter'}>个人中心</NavLink>
+                  </div>
                 )
               }
             </div>

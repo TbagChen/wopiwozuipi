@@ -3,6 +3,7 @@ import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import LoginComponent from '../views/login'
 import LayoutComponent from '../views/layout'
 import registerComponent from '../views/register'
+import SiderDemo from '../views/PersonalCenter'
 import errorComponent from '../views/error'
 import BlogIndexComponent from '../views/blogIndex'
 import WriteBlogComponent from '../views/writeBlog'
@@ -18,6 +19,7 @@ export default class IndexRouter extends React.Component{
             <LayoutComponent history={history} location={location} match={location}>
               <Route path="/" exact component={BlogIndexComponent} />
               <Route path="/writeBlog" exact component={WriteBlogComponent} />
+              <Route path={"/PersonalCenter"} component={SiderDemo} />
             </LayoutComponent>
           )} />
           <Route component={errorComponent}/>

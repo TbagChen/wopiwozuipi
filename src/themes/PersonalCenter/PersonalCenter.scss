@@ -1,0 +1,20 @@
+#components-layout-demo-responsive .logo {
+  height: 32px;
+  background: rgba(255,255,255,.2);
+  margin: 16px;
+}
+.ant-menu-dark{
+  background: pink!important;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected{
+  color: #40a9ff!important;
+  background-color: pink!important;
+}
+.avatar-uploader > .ant-upload {
+  width: 328px;
+  height: 28px;
+}
+.avatar-uploader > img{
+  width: 128px;
+  height: 28px;
+}
