@@ -52,7 +52,7 @@ export default class BlogDetail extends React.Component{
             <div className="author-wrap">
               <div className="author-left">
                 <img className="img-avater" src={this.state.articleDetail.avater?(this.state.host+this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
-                <p className="text-wrap">{this.state.host}
+                <p className="text-wrap">
                   <span className="name-span">{this.state.articleDetail.real_name?this.state.articleDetail.real_name:this.state.articleDetail.user_name}</span><br/>
                   <span className="time-span">{window.$utils.formatDate(this.state.articleDetail.create_time,'TYMD')}</span>
                 </p>

@@ -16,6 +16,9 @@ const APICONFIG = {
   },
   getArticleById:{
     path:'/article/getArticleById'
+  },
+  saveArticleTag:{
+    path:'/article/saveArticleTag'
   }
 }
 

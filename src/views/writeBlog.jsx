@@ -1,18 +1,31 @@
 import React from 'react'
+import Cookies from 'js-cookie'
 import 'braft-editor/dist/index.css'
 import '../themes/article/writeBlog.scss'
 import BraftEditor from 'braft-editor'
-import { Form, Input,Select, Button, message } from 'antd'
+import { Form, Input,Select, Button, message, Modal } from 'antd'
 const { Option } = Select;
-
 class WriteBlog extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      tagList:[]
+      tagList:[],
+      visible:false,
+      tagName:'',
+      loginInfo:''
     }
+    this.showModal = this.showModal.bind(this)
+    this.handleOk = this.handleOk.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.onChange = this.onChange.bind(this)
+    console.log(message)
   }
   componentDidMount () {
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
     this.getTagList()
     // 异步设置编辑器内容
     /*setTimeout(() => {
@@ -25,9 +38,10 @@ class WriteBlog extends React.Component{
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.form.validateFields((error, values) => {
+      console.log(values)
       if (!error) {
         const submitData = {
-          u_id:'1',
+          u_id:this.state.loginInfo.u_id,
           article_title: values.title,
           article_tag_id:values.tag,
           article_text: values.content.toText(), // or values.content.toHTML()
@@ -47,12 +61,50 @@ class WriteBlog extends React.Component{
 
   }
   getTagList(){
+    console.log(this)
     fetch.get('getTagList',{
-      u_id:'1'
+      u_id:JSON.parse(Cookies.get('loginInfo')).u_id
     }).then(res=>{
       this.setState({
         tagList:res.data
       })
+    })
+  }
+  handleOk(){
+    console.log(this)
+    const _this = this
+    if(this.state.tagName === ''){
+      message.warn('标签名不能为空')
+      return;
+    }
+    fetch.post('saveArticleTag',{
+      name:this.state.tagName,
+      u_id:this.state.loginInfo.u_id
+    }).then(res=>{
+      if(res.code === '200'){
+        message.success('添加成功')
+        _this.getTagList()
+      }else{
+        message(res.msg)
+      }
+    })
+    this.setState({
+      visible:false
+    })
+  }
+  handleCancel(){
+    this.setState({
+      visible:false
+    })
+  }
+  showModal(){
+    this.setState({
+      visible:true
+    })
+  }
+  onChange(e){
+    this.setState({
+      tagName:e.target.value
     })
   }
   render(){
@@ -86,9 +138,11 @@ class WriteBlog extends React.Component{
                 }
               </Select>
             )}
+            <Button onClick={this.showModal}>新增标签</Button>
           </Form.Item>
           <Form.Item label="文章正文">
             {getFieldDecorator('content', {
+              validateTrigger: 'onBlur',
               rules: [{
                 required: true,
                 validator: (_, value, callback) => {
@@ -110,6 +164,14 @@ class WriteBlog extends React.Component{
             <Button size="large" type="primary" htmlType="submit">发布</Button>
           </Form.Item>
         </Form>
+        <Modal
+          title="请输入标签名"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Input  onChange={this.onChange}/>
+        </Modal>
       </div>
     )
   }
