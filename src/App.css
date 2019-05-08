@@ -13,4 +13,5 @@ body{
 .layout-wrap-big{
   min-height: 100%;
   background: #f4f5f5;
+  overflow: hidden;
 }

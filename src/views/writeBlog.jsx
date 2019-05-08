@@ -3,7 +3,9 @@ import Cookies from 'js-cookie'
 import 'braft-editor/dist/index.css'
 import '../themes/article/writeBlog.scss'
 import BraftEditor from 'braft-editor'
-import { Form, Input,Select, Button, message, Modal } from 'antd'
+import { ContentUtils } from 'braft-utils'
+import { Form, Input,Select, Button, message, Modal,Upload,Icon } from 'antd'
+import utils from "../utils";
 const { Option } = Select;
 class WriteBlog extends React.Component{
   constructor(props){
@@ -12,13 +14,15 @@ class WriteBlog extends React.Component{
       tagList:[],
       visible:false,
       tagName:'',
-      loginInfo:''
+      loginInfo:'',
+      editorState:''
     }
     this.showModal = this.showModal.bind(this)
     this.handleOk = this.handleOk.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
     this.onChange = this.onChange.bind(this)
-    console.log(message)
+    this.uploadHandler = this.uploadHandler.bind(this)
+    this.beforeUpload = this.beforeUpload.bind(this)
   }
   componentDidMount () {
     if(Cookies.get('loginInfo')){
@@ -28,6 +32,9 @@ class WriteBlog extends React.Component{
     }
     this.getTagList()
     // 异步设置编辑器内容
+    this.props.form.setFieldsValue({
+      content: BraftEditor.createEditorState('')
+    })
     /*setTimeout(() => {
       this.props.form.setFieldsValue({
         content: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
@@ -107,8 +114,52 @@ class WriteBlog extends React.Component{
       tagName:e.target.value
     })
   }
+  uploadHandler(){
+    fetch.get('getQiniuToken').then(res=>{
+      utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
+        console.log(res)
+        this.setState({
+          imageUrl:'http://pr42y3dpx.bkt.clouddn.com/'+res
+        })
+        this.props.form.validateFields((error, values) => {
+          console.log(values.content)
+          this.props.form.setFieldsValue({
+            content: ContentUtils.insertMedias(values.content, [{
+              type: 'IMAGE',
+              url: 'http://pr42y3dpx.bkt.clouddn.com/'+res
+            }])
+          })
+        })
+
+      })
+    })
+  }
+  beforeUpload(file){
+    this.setState({
+      fileobj:file
+    })
+  }
   render(){
     const { getFieldDecorator } = this.props.form
+    const extendControls = [
+      {
+        key: 'antd-uploader',
+        type: 'component',
+        component: (
+          <Upload
+            accept="image/*"
+            showUploadList={false}
+            beforeUpload={this.beforeUpload}
+            customRequest={this.uploadHandler}
+          >
+            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
+            <button type="button" className="control-item button upload-button" data-title="插入图片">
+              <Icon type="picture" theme="filled" />
+            </button>
+          </Upload>
+        )
+      }
+    ]
     //const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator', 'media' ]
     return(
       <div className="writeBlog-wrap">
@@ -156,6 +207,7 @@ class WriteBlog extends React.Component{
             })(
               <BraftEditor
                 className="my-editor"
+                extendControls={extendControls}
                 placeholder="请输入正文内容"
               />
             )}

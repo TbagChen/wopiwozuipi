@@ -19,6 +19,12 @@ const APICONFIG = {
   },
   saveArticleTag:{
     path:'/article/saveArticleTag'
+  },
+  getQiniuToken:{
+    path:'/qiniuUpload'
+  },
+  editUserAvater:{
+    path:'/users/editUserAvater'
   }
 }
 
