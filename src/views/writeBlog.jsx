@@ -141,6 +141,7 @@ class WriteBlog extends React.Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form
+    const excludeControls = ['media','emoji']
     const extendControls = [
       {
         key: 'antd-uploader',
@@ -207,6 +208,7 @@ class WriteBlog extends React.Component{
             })(
               <BraftEditor
                 className="my-editor"
+                excludeControls={excludeControls}
                 extendControls={extendControls}
                 placeholder="请输入正文内容"
               />

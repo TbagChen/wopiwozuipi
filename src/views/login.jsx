@@ -141,11 +141,11 @@ export default class LoginComponent extends React.Component {
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
         console.log(res)
         this.setState({
-          imageUrl:'http://pr42y3dpx.bkt.clouddn.com/'+res
+          imageUrl:'http://img.xuweijin.com/'+res
         })
         fetch.post('editUserAvater',{
           u_id:'1',
-          avater:'http://pr42y3dpx.bkt.clouddn.com/'+res
+          avater:'http://img.xuweijin.com/'+res
         }).then(res=>{
           console.log(res)
         })

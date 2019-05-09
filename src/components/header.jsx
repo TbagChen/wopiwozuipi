@@ -2,15 +2,19 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import '../themes/index/header.scss'
 import Cookies from 'js-cookie'
-import { Menu, Dropdown, Button, Avatar, Icon ,Row, Col} from 'antd';
+import { Menu, Dropdown, Button, Avatar, Icon ,Row, Col, Modal} from 'antd';
+import LoginModal from '../components/loginModal'
 
 export default class Header extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      loginInfo:''
+      loginInfo:'',
+      modalVisible:false,
     }
     this.logout = this.logout.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.toMyBlog = this.toMyBlog.bind(this)
   }
   componentDidMount(){
     if(Cookies.get('loginInfo')){
@@ -22,6 +26,26 @@ export default class Header extends React.Component {
   logout(){
     Cookies.remove('loginInfo')
     this.props.props.history.push('/login')
+  }
+  handleCancel(){
+    console.log('124141245')
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
+    this.setState({
+      modalVisible:false,
+    })
+  }
+  toMyBlog(){
+    if(this.state.loginInfo){
+      this.props.props.history.push('/myBlog')
+    }else{
+      this.setState({
+        modalVisible:true,
+      })
+    }
   }
   render(){
     const menu = (
@@ -41,7 +65,7 @@ export default class Header extends React.Component {
       <div className="header-wrap-big">
         <div className="header-wrap">
           <Row type={'flex'}>
-            <Col span={18}>
+            <Col span={16}>
               <div className="header-left">
                 <NavLink to={'/'} className="text-wrap">
                   <svg width="130" height="60">
@@ -68,12 +92,12 @@ export default class Header extends React.Component {
                     <NavLink to={'/'}><Icon type="home" />广场</NavLink>
                   </Menu.Item>
                   <Menu.Item key="app">
-                    <NavLink to={'/myBlog'}><Icon type="meh" />我的博客</NavLink>
+                    <a href="javascript:;" onClick={this.toMyBlog}><Icon type="meh" />我的博客</a>
                   </Menu.Item>
                 </Menu>
               </div>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <div className="header-right">
                 <div>
                   {
@@ -97,6 +121,17 @@ export default class Header extends React.Component {
             </Col>
           </Row>
         </div>
+        <Modal
+          title="请先登录"
+          visible={this.state.modalVisible}
+          footer={null}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okButtonProps={{ disabled: true }}
+          cancelButtonProps={{ disabled: true }}
+        >
+          <LoginModal {...this.props} handleCancel={this.handleCancel}></LoginModal>
+        </Modal>
       </div>
     )
   }

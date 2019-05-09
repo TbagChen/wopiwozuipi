@@ -92,7 +92,7 @@ export default class RegisterComponent extends React.Component {
   }
   register(){
     console.log(this.state)
-    axios.post('http://localhost:3003/users/register',{
+    fetch.post('register',{
       userName:this.state.username,
       password:this.state.password
     }).then(res=>{
