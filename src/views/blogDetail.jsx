@@ -1,14 +1,23 @@
 import React from 'react'
 import '../themes/article/blogDetail.scss'
-import {Spin} from 'antd'
+import {Spin,Button,message,Modal} from 'antd'
+import Cookies from 'js-cookie'
+import LoginModal from '../components/loginModal'
+
+
 
 export default class BlogDetail extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       articleDetail:'',
-      host:''
+      host:'',
+      hasFollowed:0,
+      loginInfo:'',
+      modalVisible:false
     }
+    this.follow = this.follow.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
   }
   componentWillMount(){
     console.log(this.props)
@@ -23,11 +32,17 @@ export default class BlogDetail extends React.Component{
         host:'http://localhost:3003'
       })
     }
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
     this.getArticleDetail()
   }
   getArticleDetail(){
     fetch.get('getArticleById',{
-      id:this.props.match.params.article_id
+      id:this.props.match.params.article_id,
+      u_id:Cookies.get('loginInfo')?JSON.parse(Cookies.get('loginInfo')).u_id:''
     }).then(res=>{
       console.log(res)
       setTimeout(()=>{
@@ -35,12 +50,51 @@ export default class BlogDetail extends React.Component{
       },1000)
 
       this.setState({
-        articleDetail:res.data
+        articleDetail:res.data,
+        hasFollowed:res.data.hasFollowed
       })
     })
   }
   test(){
     console.log('12341')
+  }
+  handleCancel(){
+    console.log('124141245')
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
+    this.setState({
+      modalVisible:false,
+    })
+  }
+  follow(){
+    if(this.state.loginInfo === ''){
+      this.setState({
+        modalVisible:true
+      })
+    }else{
+      fetch.post('follow',{
+        u_id:this.state.loginInfo.u_id,
+        f_id:this.state.articleDetail.u_id
+      }).then(res=>{
+        if(res.code=='200'){
+          let i = 0
+          if(this.state.hasFollowed === 0){
+            i = 1
+            message.success('关注成功～')
+          }else{
+            i = 0
+            message.success('取关成功～')
+          }
+          this.setState({
+            hasFollowed:i
+          })
+
+        }
+      })
+    }
   }
   render(){
     return(
@@ -57,6 +111,21 @@ export default class BlogDetail extends React.Component{
                   <span className="time-span">{window.$utils.formatDate(this.state.articleDetail.create_time,'TYMD')}</span>
                 </p>
               </div>
+              <div className="author-right">
+                {
+                  this.state.articleDetail.u_id==this.state.loginInfo.u_id?(''):(
+                    <div>
+                      {
+                        this.state.hasFollowed === 0?(
+                          <Button onClick={this.follow}>关注</Button>
+                        ):(
+                          <Button onClick={this.follow}>已关注</Button>
+                        )
+                      }
+                    </div>
+                  )
+                }
+              </div>
             </div>
             <div className="content-wrap">
               <div className="title">{this.state.articleDetail.article_title}</div>
@@ -64,7 +133,17 @@ export default class BlogDetail extends React.Component{
             </div>
           </div>
         )}
-
+        <Modal
+          title="请先登录"
+          visible={this.state.modalVisible}
+          footer={null}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okButtonProps={{ disabled: true }}
+          cancelButtonProps={{ disabled: true }}
+        >
+          <LoginModal {...this.props} handleCancel={this.handleCancel}></LoginModal>
+        </Modal>
       </div>
     )
   }
