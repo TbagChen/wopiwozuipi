@@ -14,7 +14,7 @@ class CreateFetch {
         if (host.match('xuweijin.com')) {
             this.host = 'https://www.xuweijin.com/blogApi'
         } else {
-            this.host = 'http://localhost:3003'
+            this.host = 'https://www.xuweijin.com/blogApi'    //http://localhost:3003
         }
     }
     async get(url, req) {

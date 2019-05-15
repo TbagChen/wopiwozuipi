@@ -182,7 +182,7 @@ export default class LoginComponent extends React.Component {
     return(
       <div>
         <WrappedNormalLoginForm parentProps = {this.props} />
-        {/*<Upload
+        {<Upload
           name="avatar"
           listType="picture-card"
           className="avatar-uploader"
@@ -192,7 +192,7 @@ export default class LoginComponent extends React.Component {
           onChange={this.handleChange}
         >
           {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" /> : uploadButton}
-        </Upload>*/}
+        </Upload>}
         {/*用户名：<input type="text" name={'username'} value={this.state.username} onChange={this.getData} /><br/>
         密码：<input type="password" name={'password'}  onChange={this.getData}/><br/>
         <button onClick={this.login}>登录</button><br/>

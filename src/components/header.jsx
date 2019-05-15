@@ -28,7 +28,6 @@ export default class Header extends React.Component {
     this.props.props.history.push('/login')
   }
   handleCancel(){
-    console.log('124141245')
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
@@ -51,10 +50,10 @@ export default class Header extends React.Component {
     const menu = (
       <Menu>
         <Menu.Item>
-          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">我的主页</a>
+          <a target="_blank" rel="noopener noreferrer" href="javascript:;">我的主页</a>
         </Menu.Item>
         <Menu.Item>
-          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">设置</a>
+          <a target="_blank" rel="noopener noreferrer" href="javascript:;">设置</a>
         </Menu.Item>
         <Menu.Item>
           <a onClick={this.logout} rel="noopener noreferrer" href="javascript:;">退出</a>

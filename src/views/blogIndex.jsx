@@ -13,6 +13,7 @@ export default class BlogIndexComponent extends React.Component{
       loginInfo:''
     }
     this.goDetail = this.goDetail.bind(this)
+    this.goUser = this.goUser.bind(this)
   }
   componentDidMount(){
     if(Cookies.get('loginInfo')){
@@ -39,6 +40,9 @@ export default class BlogIndexComponent extends React.Component{
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
   }
+  goUser(params){
+    this.props.history.push('/user/'+params.u_id)
+  }
   render(){
     return(
       <div >
@@ -53,14 +57,16 @@ export default class BlogIndexComponent extends React.Component{
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ):(
               this.state.blogList.map((item, index) => {
-                  return (<li key={index} className="li-wrap" onClick={this.goDetail.bind(this, item)}>
+                  return (<li key={index} className="li-wrap" >
                       <div className="li-top">
-                        <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
+                        <span className="to-user-btn" onClick={this.goUser.bind(this, item)}>{item.real_name?(item.real_name):(item.user_name)}</span>・
                         <span>{item.tag_name}</span>・
                         <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
                       </div>
-                      <div className="li-title">{item.article_title}</div>
-                      <div className="li-content">{item.article_text}</div>
+                      <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
+                        <div className="li-title">{item.article_title}</div>
+                        <div className="li-content">{item.article_text}</div>
+                      </div>
                       {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
                     </li>
                   )
