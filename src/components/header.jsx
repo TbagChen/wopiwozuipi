@@ -2,7 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import '../themes/index/header.scss'
 import Cookies from 'js-cookie'
-import { Menu, Dropdown, Button, Avatar, Icon ,Row, Col, Modal} from 'antd';
+import { Menu, Dropdown, Avatar, Icon ,Row, Col, Modal} from 'antd';
 import LoginModal from '../components/loginModal'
 
 export default class Header extends React.Component {
@@ -50,13 +50,13 @@ export default class Header extends React.Component {
     const menu = (
       <Menu>
         <Menu.Item>
-          <a target="_blank" rel="noopener noreferrer" href="javascript:;">我的主页</a>
+          <span rel="noopener noreferrer">我的主页</span>
         </Menu.Item>
         <Menu.Item>
-          <a target="_blank" rel="noopener noreferrer" href="javascript:;">设置</a>
+          <span rel="noopener noreferrer">设置</span>
         </Menu.Item>
         <Menu.Item>
-          <a onClick={this.logout} rel="noopener noreferrer" href="javascript:;">退出</a>
+          <span onClick={this.logout} rel="noopener noreferrer">退出</span>
         </Menu.Item>
       </Menu>
     )

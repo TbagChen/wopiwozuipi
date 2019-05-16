@@ -79,7 +79,7 @@ export default class BlogDetail extends React.Component{
         u_id:this.state.loginInfo.u_id,
         f_id:this.state.articleDetail.u_id
       }).then(res=>{
-        if(res.code=='200'){
+        if(res.code==='200'){
           let i = 0
           if(this.state.hasFollowed === 0){
             i = 1
@@ -113,7 +113,7 @@ export default class BlogDetail extends React.Component{
               </div>
               <div className="author-right">
                 {
-                  this.state.articleDetail.u_id==this.state.loginInfo.u_id?(''):(
+                  this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
                     <div>
                       {
                         this.state.hasFollowed === 0?(

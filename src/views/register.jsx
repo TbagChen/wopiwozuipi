@@ -1,7 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import { message, Form, Icon, Input, Button,  } from 'antd'
-import axios from 'axios'
 import '../themes/register/login.scss'
 
 class NormalLoginForm extends React.Component {

@@ -23,7 +23,6 @@ const utils = {
       console.log(observable)
       observable.subscribe({
         complete(data) {
-          const { key } = data;
           console.log(data)
           // 把返回的 key 与 域名拼接，就是图片地址
           resolve(data.key)

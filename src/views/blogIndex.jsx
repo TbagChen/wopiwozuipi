@@ -1,6 +1,4 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
-import axios from 'axios'
 import '../themes/index/index.scss'
 import Cookies from 'js-cookie'
 import {Skeleton,Empty} from 'antd'
@@ -46,9 +44,6 @@ export default class BlogIndexComponent extends React.Component{
   render(){
     return(
       <div >
-       {/* 这里是鲨鱼辣椒 <br/>
-        快来<NavLink to={'/register'}>加入我们</NavLink>吧！
-        <h3><NavLink to={'/writeBlog'}>我要去写博客！</NavLink></h3>*/}
         <ul className="blog-ul" >
           {this.state.blogList === ''?(
             <Skeleton active />

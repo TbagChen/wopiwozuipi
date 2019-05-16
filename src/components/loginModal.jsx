@@ -71,9 +71,6 @@ class FormLogin extends React.Component{
 const FormLoginComponent = Form.create({ name: 'normal_login' })(FormLogin);
 
 export default class LoginModal extends React.Component{
-  constructor(props){
-    super(props)
-  }
   componentWillMount(){
     console.log(this.props)
     //this.props.handleCancel()
