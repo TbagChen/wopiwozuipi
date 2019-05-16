@@ -26,8 +26,11 @@ const APICONFIG = {
   editUserAvater:{
     path:'/users/editUserAvater'
   },
-  follow:{
-    path:'/users/follow'
+  follow: {
+    path: '/users/follow'
+  },
+  getUserBasicInfo:{
+    path:'/users/getUserBasicInfo'
   }
 }
 

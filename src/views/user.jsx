@@ -6,10 +6,24 @@ export default class User extends React.Component{
     super(props)
     this.state = {
       blogList:'',
+      userInfo:'',
+      host:'',
     }
   }
   componentWillMount(){
     this.getBlogList()
+    this.getUserBasicInfo()
+    let host1 = window.location.href;
+    host1 = host1.toLocaleLowerCase();
+    if (host1.match('xuweijin.com')) {
+      this.setState({
+        host:'https://www.xuweijin.com/blogApi'
+      })
+    } else {
+      this.setState({
+        host:'http://localhost:3003'
+      })
+    }
   }
   getBlogList(){
     fetch.get("getArticle",{
@@ -20,12 +34,30 @@ export default class User extends React.Component{
       })
     })
   }
+  getUserBasicInfo(){
+    fetch.get("getUserBasicInfo",{
+      u_id:this.props.match.params.u_id,
+    }).then(res=>{
+      this.setState({
+        userInfo:res.data
+      })
+    })
+  }
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
   }
   render(){
     return(
       <div className="userComponent-wrap">
+        <div className="userInfo-content">
+          <div className="uc-left">
+            <img className="img-avater" src={this.state.userInfo.avater?(this.state.userInfo.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+            <span>{this.state.userInfo.user_name}</span>
+          </div>
+          <div className="uc-right">
+
+          </div>
+        </div>
         <div className="article-content-list">
           <ul className="blog-ul" >
             {this.state.blogList === ''?(
