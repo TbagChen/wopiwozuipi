@@ -1,5 +1,6 @@
 import React from 'react'
-import {Empty,Skeleton} from 'antd'
+import {Empty,Skeleton,Spin} from 'antd'
+import '../themes/user/user.scss'
 
 export default class User extends React.Component{
   constructor(props){
@@ -50,13 +51,20 @@ export default class User extends React.Component{
     return(
       <div className="userComponent-wrap">
         <div className="userInfo-content">
-          <div className="uc-left">
-            <img className="img-avater" src={this.state.userInfo.avater?(this.state.userInfo.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
-            <span>{this.state.userInfo.user_name}</span>
-          </div>
-          <div className="uc-right">
+          {this.state.userInfo===''?(
+            <div>
+              <Spin size delay={'1000'} />
+            </div>
+          ):(
+            <div>
+              <div className="uc-left">
+                <img className="img-avater" src={this.state.userInfo.avater?(this.state.userInfo.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                <span className="name-span">{this.state.userInfo.real_name?(this.state.userInfo.real_name):(this.state.userInfo.user_name)}</span>
+              </div>
+              <div className="uc-right"></div>
+            </div>
+          )}
 
-          </div>
         </div>
         <div className="article-content-list">
           <ul className="blog-ul" >
