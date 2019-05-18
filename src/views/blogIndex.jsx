@@ -28,7 +28,8 @@ export default class BlogIndexComponent extends React.Component{
       })
     })*/
     fetch.get("getArticle",{
-      u_id:''
+      u_id:'',
+      token:JSON.parse(Cookies.get('loginInfo')).token,
     }).then(res=>{
       this.setState({
         blogList:res.data

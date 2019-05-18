@@ -1,7 +1,9 @@
 
 
 import API from './api'
+import {message} from 'antd'
 require('es6-promise').polyfill();
+
 const fetch = require('isomorphic-fetch');
 
 
@@ -28,6 +30,10 @@ class CreateFetch {
               'Content-Type': 'application/json'
             }
         }
+        console.log(req.token)
+        if(req.token){
+          this.lists.headers['Authorization'] = 'Bearer ' + req.token;
+        }
         let list = [];
         this.body = '';
         if (req instanceof Object) {
@@ -42,7 +48,13 @@ class CreateFetch {
             this.lists.mode = req.mode || this.lists.mode;
         }
         let res = await fetch(this.host + url + this.body, this.lists);
-        return await res.json()
+        console.log(res)
+        if(res.status == '401'){
+            message.error('token失效，请重新登录～')
+        }else{
+          return await res.json()
+        }
+
     }
     async post(url, req) {
         url = API[url].path;
@@ -54,6 +66,9 @@ class CreateFetch {
                 'Content-Type': 'application/json'
             }
         }
+      if(req.token){
+        this.lists.headers['Authorization'] = 'Bearer ' + req.token;
+      }
         if (req instanceof Object) {
             this.lists.headers = req.headers || this.lists.headers;
             this.lists.cache = req.cache || this.lists.cache;
@@ -62,7 +77,11 @@ class CreateFetch {
             this.lists.body = JSON.stringify(this.lists.body)
         }
         let res = await fetch(this.host + url, this.lists);
+      if(res.status == '401'){
+        message.error('token失效，请重新登录～')
+      }else{
         return await res.json()
+      }
     }
 }
 
