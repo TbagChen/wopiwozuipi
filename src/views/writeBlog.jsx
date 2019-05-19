@@ -70,7 +70,8 @@ class WriteBlog extends React.Component{
   getTagList(){
     console.log(this)
     fetch.get('getTagList',{
-      u_id:JSON.parse(Cookies.get('loginInfo')).u_id
+      u_id:JSON.parse(Cookies.get('loginInfo')).u_id,
+      token:JSON.parse(Cookies.get('loginInfo')).token
     }).then(res=>{
       this.setState({
         tagList:res.data
@@ -86,7 +87,8 @@ class WriteBlog extends React.Component{
     }
     fetch.post('saveArticleTag',{
       name:this.state.tagName,
-      u_id:this.state.loginInfo.u_id
+      u_id:this.state.loginInfo.u_id,
+      token:JSON.parse(Cookies.get('loginInfo')).token
     }).then(res=>{
       if(res.code === '200'){
         message.success('添加成功')

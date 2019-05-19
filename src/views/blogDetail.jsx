@@ -77,7 +77,8 @@ export default class BlogDetail extends React.Component{
     }else{
       fetch.post('follow',{
         u_id:this.state.loginInfo.u_id,
-        f_id:this.state.articleDetail.u_id
+        f_id:this.state.articleDetail.u_id,
+        token:JSON.parse(Cookies.get('loginInfo')).token
       }).then(res=>{
         if(res.code==='200'){
           let i = 0
