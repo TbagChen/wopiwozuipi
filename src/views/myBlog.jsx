@@ -46,14 +46,16 @@ export default class MyBlog extends React.Component{
           ) : (
               this.state.blogList.length !== 0?(
                 this.state.blogList.map((item, index) => {
-                    return (<li key={index} className="li-wrap" onClick={this.goDetail.bind(this, item)}>
+                    return (<li key={index} className="li-wrap">
                         <div className="li-top">
                           <span>{item.user_name}</span>・
                           <span>{item.tag_name}</span>・
                           <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
                         </div>
-                        <div className="li-title">{item.article_title}</div>
-                        <div className="li-content">{item.article_text}</div>
+                        <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
+                          <div className="li-title">{item.article_title}</div>
+                          <div className="li-content">{item.article_text}</div>
+                        </div>
                         {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
                       </li>
                     )
