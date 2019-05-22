@@ -17,6 +17,7 @@ export default class BlogDetail extends React.Component{
       modalVisible:false
     }
     this.follow = this.follow.bind(this)
+    this.collection = this.collection.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
   componentWillMount(){
@@ -69,6 +70,14 @@ export default class BlogDetail extends React.Component{
       modalVisible:false,
     })
   }
+  collection(){
+    fetch.post('collectActicle',{
+      token:JSON.parse(Cookies.get('loginInfo')).token,
+      article_id:this.state.articleDetail.id
+    }).then(res=>{
+
+    })
+  }
   follow(){
     if(this.state.loginInfo === ''){
       this.setState({
@@ -105,6 +114,7 @@ export default class BlogDetail extends React.Component{
         ):(
           <div>
             <div className="author-wrap">
+              <div onClick={this.collection}>收藏</div>
               <div className="author-left">
                 <img className="img-avater" src={this.state.articleDetail.avater?(this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                 <p className="text-wrap">

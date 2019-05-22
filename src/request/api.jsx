@@ -20,6 +20,9 @@ const APICONFIG = {
   saveArticleTag:{
     path:'/article/saveArticleTag'
   },
+  collectActicle:{
+    path:'/article/collectArticle'
+  },
   getQiniuToken:{
     path:'/qiniuUpload'
   },
