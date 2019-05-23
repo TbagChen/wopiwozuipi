@@ -19,6 +19,31 @@
         font-size: 30px;
         line-height: 80px;
       }
+      .left-text{
+        float: left;
+        .left-ul{
+          .left-li{
+            padding: 0 10px;
+            float:left;
+            text-align: center;
+            .num-text{
+              font-size: 16px;
+              color:#30445a;
+              font-weight: bold;
+            }
+            .text-span{
+              font-size: 12px;
+              color:#31455d;
+            }
+          }
+        }
+      }
+    }
+    .uc-right{
+      float:right;
+      .button-wrap{
+        margin:70px 20px 0 0;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import '../themes/article/blogDetail.scss'
-import {Spin,Button,message,Modal} from 'antd'
+import {Spin,Button,message,Modal,Icon} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
 
@@ -71,12 +71,32 @@ export default class BlogDetail extends React.Component{
     })
   }
   collection(){
-    fetch.post('collectActicle',{
-      token:JSON.parse(Cookies.get('loginInfo')).token,
-      article_id:this.state.articleDetail.id
-    }).then(res=>{
-
-    })
+    if(this.state.loginInfo === ''){
+      this.setState({
+        modalVisible:true
+      })
+    }else {
+      fetch.post('collectActicle', {
+        token: JSON.parse(Cookies.get('loginInfo')).token,
+        article_id: this.state.articleDetail.id
+      }).then(res => {
+        if (res.code === '200') {
+          let i = 0
+          let articleDetail = this.state.articleDetail
+          if (this.state.articleDetail.hasCollect === 0) {
+            i = 1
+            message.success('收藏成功～')
+          } else {
+            i = 0
+            message.success('已取消收藏～')
+          }
+          articleDetail.hasCollect = i
+          this.setState({
+            articleDetail: articleDetail
+          })
+        }
+      })
+    }
   }
   follow(){
     if(this.state.loginInfo === ''){
@@ -114,7 +134,6 @@ export default class BlogDetail extends React.Component{
         ):(
           <div>
             <div className="author-wrap">
-              <div onClick={this.collection}>收藏</div>
               <div className="author-left">
                 <img className="img-avater" src={this.state.articleDetail.avater?(this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                 <p className="text-wrap">
@@ -123,9 +142,12 @@ export default class BlogDetail extends React.Component{
                 </p>
               </div>
               <div className="author-right">
+                <div className="collect-wrap" onClick={this.collection}>
+                  {this.state.articleDetail.hasCollect=='0'?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
+                </div>
                 {
                   this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
-                    <div>
+                    <div className="follow-wrap">
                       {
                         this.state.hasFollowed === 0?(
                           <Button onClick={this.follow}>关注</Button>

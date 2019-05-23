@@ -25,6 +25,7 @@ class FormLogin extends React.Component{
           }else{
             message.success('登录成功～')
             Cookies.set('loginInfo',res.data)
+            window.location.reload();
             this.props.handleCancel()
           }
         })
