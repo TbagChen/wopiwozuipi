@@ -1,5 +1,5 @@
 import React from 'react'
-import { message, Icon, Button,Layout, Menu ,Upload } from 'antd'
+import { message, Icon, Button,Layout, Menu ,Upload, Radio } from 'antd'
 import '../themes/PersonalCenter/PersonalCenter.scss'
 import utils from '../utils'
 import Cookies from 'js-cookie'
@@ -31,8 +31,12 @@ export default class SiderDemo extends React.Component {
       super(props)
       this.state = {
         loading: false,
+        fileobj:'',
       }
       this.uploadClick = this.uploadClick.bind(this)
+      this.getData = this.getData.bind(this)
+      this.getFileData = this.getFileData.bind(this)
+      this.beforeUpload = this.beforeUpload.bind(this)
     }
     handleChange = (info) => {
       if (info.file.status === 'uploading') {
@@ -50,25 +54,44 @@ export default class SiderDemo extends React.Component {
         file:info.file
       })
     };
-
+    getData(e){
+      const target = e.target
+      const value = target.type === 'checkbox'?target.checked:target.value;
+      const name = target.name
+      this.setState({
+        [name]:value
+      })
+      console.log(e.target.files[0])
+    }
+    getFileData(e){
+      this.setState({
+        fileobj:e.target.files[0]
+      })
+    }
+    beforeUpload(file){
+      this.setState({
+        fileobj:file
+      })
+    }
     //上传头像
     uploadClick(){
-      let form = new FormData();
-      form.append('file', this.state.file);
       fetch.get('getQiniuToken',{token: JSON.parse(Cookies.get('loginInfo')).token}).then(res=>{
-        utils.uploadFile(this.state.file,res.data.qiniuToken).then(res=>{
+        utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
           console.log(res)
           this.setState({
             imageUrl:'http://img.xuweijin.com/'+res
           })
+          let avater = 'http://img.xuweijin.com/'+res
           fetch.post('editUserAvater',{
-            u_id:'1',
-            avater:'http://img.xuweijin.com/'+res,
+            u_id:JSON.parse(Cookies.get('loginInfo')).u_id,
+            avater:avater,
             token: JSON.parse(Cookies.get('loginInfo')).token
           }).then(res=>{
-            console.log(res)
+            let loginInfo = JSON.parse(Cookies.get('loginInfo'))
+            loginInfo.avater = avater
+            Cookies.set('loginInfo',loginInfo)
             setTimeout(()=>{
-              // window.location.reload();
+              window.location.reload();
             },1000)
           })
         })
@@ -82,7 +105,7 @@ export default class SiderDemo extends React.Component {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          style={{ background: '#40a9ff'}}
+          style={{ background: '#3872a1'}}
           // onBreakpoint={(broken) => { console.log(broken); }}
           // onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
         >
@@ -103,7 +126,7 @@ export default class SiderDemo extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#40a9ff', padding: 0 }} />
+          <Header style={{ background: '#3872a1', padding: 0}} />
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
                 
@@ -113,7 +136,7 @@ export default class SiderDemo extends React.Component {
                     className="avatar-uploader"
                     showUploadList={false}
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    beforeUpload={beforeUpload}
+                    beforeUpload={this.beforeUpload}
                     onChange={this.handleChange}
                   >
                     {this.state.imageUrl 
@@ -130,7 +153,7 @@ export default class SiderDemo extends React.Component {
           <Footer style={{ textAlign: 'center' }}>
           </Footer>
         </Layout>
-      </Layout>
+        </Layout>
       );
     }
 }
