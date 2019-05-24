@@ -2,14 +2,21 @@
   background: #fff;
   margin-top: 20px;
   padding: 0px 20px 30px;
+  float: left;
+  width: 100%;
   .li-wrap{
     padding: 20px 0px;
     border-bottom: 1px solid #d9d9d9;
-    cursor: pointer;
+    .tc-content{
+      cursor: pointer;
+    }
     .li-top{
       color: #666;
       font-size:12px;
       line-height: 28px;
+      .to-user-btn{
+        cursor: pointer;
+      }
     }
     .li-title{
       font-size: 16px;

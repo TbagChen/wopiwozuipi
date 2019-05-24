@@ -33,12 +33,27 @@
         }
       }
     }
+    .author-right{
+      float: right;
+      margin-top: 5px;
+      .collect-wrap{
+        display: inline-block;
+        float: left;
+        margin-right: 10px;
+        margin-top: 5px;
+        cursor: pointer;
+      }
+      .follow-wrap{
+        float: left;
+      }
+    }
   }
   .content-wrap{
     width: 100%;
     overflow: hidden;
     img{
       display: inline-block;
+      max-width: 96%;
     }
   }
   .title{

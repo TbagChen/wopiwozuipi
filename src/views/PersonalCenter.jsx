@@ -1,8 +1,8 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
-import { message, Form, Icon, Input, Button,Layout, Menu ,Upload } from 'antd'
-import axios from 'axios'
+import { message, Icon, Button,Layout, Menu ,Upload } from 'antd'
 import '../themes/PersonalCenter/PersonalCenter.scss'
+import utils from '../utils'
+import Cookies from 'js-cookie'
 const { Header, Sider, Content, Footer } = Layout;
 
 
@@ -55,7 +55,24 @@ export default class SiderDemo extends React.Component {
     uploadClick(){
       let form = new FormData();
       form.append('file', this.state.file);
-      console.log('3334444',this.state.file)
+      fetch.get('getQiniuToken',{token: JSON.parse(Cookies.get('loginInfo')).token}).then(res=>{
+        utils.uploadFile(this.state.file,res.data.qiniuToken).then(res=>{
+          console.log(res)
+          this.setState({
+            imageUrl:'http://img.xuweijin.com/'+res
+          })
+          fetch.post('editUserAvater',{
+            u_id:'1',
+            avater:'http://img.xuweijin.com/'+res,
+            token: JSON.parse(Cookies.get('loginInfo')).token
+          }).then(res=>{
+            console.log(res)
+            setTimeout(()=>{
+              // window.location.reload();
+            },1000)
+          })
+        })
+      })
     }
   
     render(){
@@ -65,7 +82,7 @@ export default class SiderDemo extends React.Component {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          style={{ background: 'pink'}}
+          style={{ background: '#40a9ff'}}
           // onBreakpoint={(broken) => { console.log(broken); }}
           // onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
         >
@@ -86,7 +103,7 @@ export default class SiderDemo extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: 'pink', padding: 0 }} />
+          <Header style={{ background: '#40a9ff', padding: 0 }} />
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 660 }}>
                 

@@ -1,17 +1,17 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
-import axios from 'axios'
 import '../themes/index/index.scss'
 import Cookies from 'js-cookie'
+import {Skeleton,Empty} from 'antd'
 
 export default class BlogIndexComponent extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      blogList:[],
+      blogList:'',
       loginInfo:''
     }
     this.goDetail = this.goDetail.bind(this)
+    this.goUser = this.goUser.bind(this)
   }
   componentDidMount(){
     if(Cookies.get('loginInfo')){
@@ -28,7 +28,8 @@ export default class BlogIndexComponent extends React.Component{
       })
     })*/
     fetch.get("getArticle",{
-      u_id:''
+      u_id:'',
+      //token:JSON.parse(Cookies.get('loginInfo')).token||'',
     }).then(res=>{
       this.setState({
         blogList:res.data
@@ -38,30 +39,39 @@ export default class BlogIndexComponent extends React.Component{
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
   }
+  goUser(params){
+    this.props.history.push('/user/'+params.u_id)
+  }
   render(){
     return(
       <div >
-       {/* 这里是鲨鱼辣椒 <br/>
-        快来<NavLink to={'/register'}>加入我们</NavLink>吧！
-        <h3><NavLink to={'/writeBlog'}>我要去写博客！</NavLink></h3>*/}
         <ul className="blog-ul" >
-          {
-            this.state.blogList.map((item,index) =>{
-              return (<li key={index} className="li-wrap" onClick={this.goDetail.bind(this,item)}>
-                  <div className="li-top" >
-                    <span>{item.user_name}</span>・
-                    <span>{item.tag_name}</span>・
-                    <span>{window.$utils.goodTime(item.create_time/1000)}</span>
-                  </div>
-                  <div className="li-title">{item.article_title}</div>
-                  <div className="li-content">{item.article_text}</div>
-                  {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
-                </li>
+          {this.state.blogList === ''?(
+            <Skeleton active />
+          ):(
+            this.state.blogList.length === 0?(
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ):(
+              this.state.blogList.map((item, index) => {
+                  return (<li key={index} className="li-wrap" >
+                      <div className="li-top">
+                        <span className="to-user-btn" onClick={this.goUser.bind(this, item)}>{item.real_name?(item.real_name):(item.user_name)}</span>・
+                        <span>{item.tag_name}</span>・
+                        <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                      </div>
+                      <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
+                        <div className="li-title">{item.article_title}</div>
+                        <div className="li-content">{item.article_text}</div>
+                      </div>
+                      {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
+                    </li>
+                  )
+                }
               )
-            })
-          }
+            )
+          )}
         </ul>
-        {this.props.children}
+        {/*{this.props.children}*/}
       </div>
     )
   }

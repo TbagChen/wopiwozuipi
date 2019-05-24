@@ -1,0 +1,49 @@
+.userComponent-wrap{
+  .userInfo-content{
+    height: 140px;
+    width: 100%;
+    background: #fff;
+    margin-top: 20px;
+    border-radius: 2px;
+    .uc-left{
+      .img-avater{
+        display: block;
+        float: left;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 20px;
+      }
+      .name-span{
+        font-weight: bold;
+        font-size: 30px;
+        line-height: 80px;
+      }
+      .left-text{
+        float: left;
+        .left-ul{
+          .left-li{
+            padding: 0 10px;
+            float:left;
+            text-align: center;
+            .num-text{
+              font-size: 16px;
+              color:#30445a;
+              font-weight: bold;
+            }
+            .text-span{
+              font-size: 12px;
+              color:#31455d;
+            }
+          }
+        }
+      }
+    }
+    .uc-right{
+      float:right;
+      .button-wrap{
+        margin:70px 20px 0 0;
+      }
+    }
+  }
+}

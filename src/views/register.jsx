@@ -1,7 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import { message, Form, Icon, Input, Button,  } from 'antd'
-import axios from 'axios'
 import '../themes/register/login.scss'
 
 class NormalLoginForm extends React.Component {
@@ -12,6 +11,7 @@ class NormalLoginForm extends React.Component {
         fetch.post('register',{
             userName:values.userName,
             password:values.password,
+            realName:values.realName,
             phone:values.phone
         }).then(res=>{
           if(res.code !== '200'){
@@ -33,21 +33,28 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('realName', {
+            rules: [{ required: true, message: 'Please input your nickname!' }],
+          })(
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="昵称" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('phoneNum', {
             rules: [{ required: true, message: 'Please input your phoneNum!' }],
           })(
-            <Input prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="PhoneNum" />
+            <Input prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="手机号" />
           )}
         </Form.Item>
         <Form.Item>
@@ -84,7 +91,7 @@ export default class RegisterComponent extends React.Component {
   }
   register(){
     console.log(this.state)
-    axios.post('http://localhost:3003/users/register',{
+    fetch.post('register',{
       userName:this.state.username,
       password:this.state.password
     }).then(res=>{

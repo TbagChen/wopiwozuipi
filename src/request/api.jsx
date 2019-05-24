@@ -16,6 +16,24 @@ const APICONFIG = {
   },
   getArticleById:{
     path:'/article/getArticleById'
+  },
+  saveArticleTag:{
+    path:'/article/saveArticleTag'
+  },
+  collectActicle:{
+    path:'/article/collectArticle'
+  },
+  getQiniuToken:{
+    path:'/qiniuUpload'
+  },
+  editUserAvater:{
+    path:'/users/editUserAvater'
+  },
+  follow: {
+    path: '/users/follow'
+  },
+  getUserBasicInfo:{
+    path:'/users/getUserBasicInfo'
   }
 }
 
