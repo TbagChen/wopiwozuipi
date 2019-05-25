@@ -91,7 +91,7 @@ export default class Header extends React.Component {
                     <NavLink to={'/'}><Icon type="home" />广场</NavLink>
                   </Menu.Item>
                   <Menu.Item key="app">
-                    <a href="javascript:;" onClick={this.toMyBlog}><Icon type="meh" />我的博客</a>
+                    <span onClick={this.toMyBlog}><Icon type="meh" />我的博客</span>
                   </Menu.Item>
                 </Menu>
               </div>
@@ -108,9 +108,8 @@ export default class Header extends React.Component {
                     ):(
                       <div>
                         <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
-                        {console.log(this.state.loginInfo)}
                         <Dropdown trigger={['click']} overlay={menu} placement="bottomCenter">
-                          {this.state.loginInfo.avater?(<a href={'javascript:;'} className="avater-a"><img src={this.state.loginInfo.avater} className="avater-img" alt="头像"/></a>):(<Avatar size="large" icon="user" />)}
+                          {this.state.loginInfo.avater?(<span className="avater-a"><img src={this.state.loginInfo.avater} className="avater-img" alt="头像"/></span>):(<Avatar size="large" icon="user" />)}
                         </Dropdown>
                       </div>
                     )

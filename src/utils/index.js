@@ -17,7 +17,6 @@ const utils = {
         region: qiniu.region.z0, // 为 null 会自动解析上传区域
       };
       // 调用 qiniu.upload 上传图片，生成 observable 实例
-      console.log(token)
       const observable = qiniu.upload(file, key, token, putExtra, config);
       // 调用 observable 的 subscribe 方法，获取响应结果
       console.log(observable)

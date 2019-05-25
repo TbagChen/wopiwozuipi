@@ -3,6 +3,7 @@ import '../themes/article/blogDetail.scss'
 import {Spin,Button,message,Modal,Icon} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
+import 'braft-editor/dist/index.css'
 
 
 
@@ -143,7 +144,7 @@ export default class BlogDetail extends React.Component{
               </div>
               <div className="author-right">
                 <div className="collect-wrap" onClick={this.collection}>
-                  {this.state.articleDetail.hasCollect=='0'?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
+                  {this.state.articleDetail.hasCollect===0?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
                 </div>
                 {
                   this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
