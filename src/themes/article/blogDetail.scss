@@ -56,6 +56,60 @@
       max-width: 96%;
     }
   }
+  .reply-wrap{
+    margin-top: 10px;
+    padding: 0 10px;
+    .textarea-wrap{
+      .button-wrap{
+        text-align: right;
+        margin-top: 8px;
+      }
+    }
+    .reply-ul{
+      margin-top: 10px;
+      .reply-li{
+        display: flex;
+        .li-left{
+          width: 60px;
+          float: left;
+          text-align: center;
+          .img-avater{
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
+        }
+        .li-right{
+          flex: 1;
+          float: left;
+          margin-bottom: 20px;
+          border-bottom: 1px solid #f1f1f1;
+          .l-r-top{
+            font-size: 14px;
+            color :#333;
+            line-height: 30px;
+          }
+          .content{
+            font-size: 14px;
+            margin-top: 5px;
+            color:#505050;
+            line-height: 24px;
+            white-space: pre-line;
+          }
+          .l-r-bottom{
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            color:#8a9aa9;
+            .delete-wrap{
+              float: right;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
   .title{
     margin-top: 20px;
     font-size: 32px;
