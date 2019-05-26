@@ -155,6 +155,12 @@ export default class BlogDetail extends React.Component{
   }
   replyArticle(){
     console.log(this.state.replyContent)
+    if(!Cookies.get('loginInfo')){
+      this.setState({
+        modalVisible:true
+      })
+      return
+    }
     if(this.state.replyContent === ''){
       message.info('输入内容不能为空～')
     }else{
@@ -245,7 +251,7 @@ export default class BlogDetail extends React.Component{
                         <div className="content">{item.content}</div>
                         <div className="l-r-bottom">
                           {window.$utils.goodTime(item.create_time/1000)}
-                          {JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
+                          {Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
                             <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
                           )}
                         </div>
