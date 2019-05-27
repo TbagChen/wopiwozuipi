@@ -58,6 +58,7 @@ export default class BlogIndexComponent extends React.Component{
                         <span className="to-user-btn" onClick={this.goUser.bind(this, item)}>{item.real_name?(item.real_name):(item.user_name)}</span>・
                         <span>{item.tag_name}</span>・
                         <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                        <div className="comment-wrap">评论数：{item.comment_count}</div>
                       </div>
                       <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
                         <div className="li-title">{item.article_title}</div>

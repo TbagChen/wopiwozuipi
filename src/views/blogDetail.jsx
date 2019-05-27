@@ -196,6 +196,9 @@ export default class BlogDetail extends React.Component{
       }
     })
   }
+  replyComment(params){   //回复评论
+
+  }
   render(){
     return(
       <div className="blogDetail-wrap">
@@ -251,10 +254,19 @@ export default class BlogDetail extends React.Component{
                         <div className="content">{item.content}</div>
                         <div className="l-r-bottom">
                           {window.$utils.goodTime(item.create_time/1000)}
-                          {Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
-                            <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
-                          )}
+                          <div className="l-r-b-right">
+                            {Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
+                              <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
+                            )}
+                            <span onClick={this.replyComment.bind(this,item)}>回复</span>
+                          </div>
                         </div>
+                        {true &&
+                        <div>
+                          <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'回复'+item.user_name}/>
+                          <div className="button-wrap"><Button onClick={this.replyArticle} size={'small'} type="primary">回复</Button></div>
+                        </div>
+                        }
                       </div>
                     </li>
                   )
