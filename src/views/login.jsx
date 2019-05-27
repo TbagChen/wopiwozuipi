@@ -1,6 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import { message, Form, Icon, Input, Button, Checkbox } from 'antd'
+import { message, Form, Icon, Input, Button, Checkbox} from 'antd'
 import '../themes/register/login.scss'
 import Cookies from 'js-cookie'
 import utils from '../utils'
@@ -81,6 +81,7 @@ export default class LoginComponent extends React.Component {
       arr:[1,2,3,4],
       form:'',
       imageUrl:'',
+      loginInfo:'',
     }
     this.changeStatus = this.changeStatus.bind(this)
     this.getData = this.getData.bind(this)
@@ -89,6 +90,13 @@ export default class LoginComponent extends React.Component {
     this.upload = this.upload.bind(this)
     this.getFileData = this.getFileData.bind(this)
     this.beforeUpload = this.beforeUpload.bind(this)
+  }
+  componentWillMount(){
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
   }
   login(){
     fetch.post('login',{
@@ -137,7 +145,8 @@ export default class LoginComponent extends React.Component {
     }))
   }
   upload(){
-    fetch.get('getQiniuToken').then(res=>{
+    fetch.get('getQiniuToken',{token:this.state.loginInfo.token}).then(res=>{
+      console.log(this.state.fileobj)
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
         console.log(res)
         this.setState({
@@ -145,6 +154,7 @@ export default class LoginComponent extends React.Component {
         })
         fetch.post('editUserAvater',{
           u_id:'1',
+          token:this.state.loginInfo.token,
           avater:'http://img.xuweijin.com/'+res
         }).then(res=>{
           console.log(res)
@@ -173,12 +183,12 @@ export default class LoginComponent extends React.Component {
 
   }
   render(){
-    // const uploadButton = (
-    //   <div>
-    //     <Icon type={this.state.loading ? 'loading' : 'plus'} />
-    //     <div className="ant-upload-text">Upload</div>
-    //   </div>
-    // );
+    /*const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );*/
     return(
       <div>
         <WrappedNormalLoginForm parentProps = {this.props} />

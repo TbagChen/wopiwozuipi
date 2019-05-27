@@ -1,12 +1,20 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import 'braft-editor/dist/index.css'
+import 'braft-extensions/dist/code-highlighter.css'
 import '../themes/article/writeBlog.scss'
 import BraftEditor from 'braft-editor'
+//import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { ContentUtils } from 'braft-utils'
+import { dropByCacheKey } from 'react-router-cache-route'
 import { Form, Input,Select, Button, message, Modal,Upload,Icon } from 'antd'
 import utils from "../utils";
+//import BlogIndexComponent from "./blogIndex";
 const { Option } = Select;
+/*const options = {
+
+}*/
+//BraftEditor.use(CodeHighlighter(options))
 class WriteBlog extends React.Component{
   constructor(props){
     super(props)
@@ -48,6 +56,7 @@ class WriteBlog extends React.Component{
       console.log(values)
       if (!error) {
         const submitData = {
+          token:JSON.parse(Cookies.get('loginInfo')).token,
           u_id:this.state.loginInfo.u_id,
           article_title: values.title,
           article_tag_id:values.tag,
@@ -58,6 +67,7 @@ class WriteBlog extends React.Component{
         fetch.post('publish',submitData).then(res=>{
           console.log(res)
           if(res.code === '200'){
+            dropByCacheKey('BlogIndexComponent')
             this.props.history.push('/')
           }else{
             message(res.msg)
@@ -67,7 +77,7 @@ class WriteBlog extends React.Component{
     })
 
   }
-  getTagList(){
+  getTagList(params){
     console.log(this)
     fetch.get('getTagList',{
       u_id:JSON.parse(Cookies.get('loginInfo')).u_id,
@@ -76,6 +86,14 @@ class WriteBlog extends React.Component{
       this.setState({
         tagList:res.data
       })
+
+        if(params){
+          this.props.form.setFieldsValue({
+            tag: params
+          })
+        }
+
+
     })
   }
   handleOk(){
@@ -92,7 +110,8 @@ class WriteBlog extends React.Component{
     }).then(res=>{
       if(res.code === '200'){
         message.success('添加成功')
-        _this.getTagList()
+        _this.getTagList(res.data.tag_id)
+
       }else{
         message(res.msg)
       }
@@ -117,14 +136,16 @@ class WriteBlog extends React.Component{
     })
   }
   uploadHandler(){
-    fetch.get('getQiniuToken').then(res=>{
+    fetch.get('getQiniuToken',{
+      token:JSON.parse(Cookies.get('loginInfo')).token
+    }).then(res=>{
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
         console.log(res)
         this.setState({
           imageUrl:'http://pr42y3dpx.bkt.clouddn.com/'+res
         })
         this.props.form.validateFields((error, values) => {
-          console.log(values.content)
+          console.log('1241241')
           this.props.form.setFieldsValue({
             content: ContentUtils.insertMedias(values.content, [{
               type: 'IMAGE',

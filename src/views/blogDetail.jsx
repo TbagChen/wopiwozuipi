@@ -1,8 +1,10 @@
 import React from 'react'
 import '../themes/article/blogDetail.scss'
-import {Spin,Button,message,Modal,Icon} from 'antd'
+import {Spin,Button,message,Modal,Icon,Input} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
+import 'braft-editor/dist/index.css'
+const { TextArea } = Input;
 
 
 
@@ -14,11 +16,16 @@ export default class BlogDetail extends React.Component{
       host:'',
       hasFollowed:0,
       loginInfo:'',
-      modalVisible:false
+      modalVisible:false,
+      replyContent:'',
+      replyList:[],
     }
     this.follow = this.follow.bind(this)
     this.collection = this.collection.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+    this.replyArticle = this.replyArticle.bind(this)
+    this.changeText = this.changeText.bind(this)
+    this.deleteComment = this.deleteComment.bind(this)
   }
   componentWillMount(){
     console.log(this.props)
@@ -39,6 +46,12 @@ export default class BlogDetail extends React.Component{
       })
     }
     this.getArticleDetail()
+    this.getCommentList()
+  }
+  changeText(e){
+    this.setState({
+      replyContent:e.target.value
+    })
   }
   getArticleDetail(){
     fetch.get('getArticleById',{
@@ -126,6 +139,63 @@ export default class BlogDetail extends React.Component{
       })
     }
   }
+  getCommentList(){
+    fetch.get('getCommentList',{
+      article_id:this.props.match.params.article_id,
+    }).then(res=>{
+      console.log(res)
+      setTimeout(()=>{
+        console.log(this.state.host)
+      },1000)
+
+      this.setState({
+        replyList:res.data,
+      })
+    })
+  }
+  replyArticle(){
+    console.log(this.state.replyContent)
+    if(!Cookies.get('loginInfo')){
+      this.setState({
+        modalVisible:true
+      })
+      return
+    }
+    if(this.state.replyContent === ''){
+      message.info('输入内容不能为空～')
+    }else{
+      fetch.post('commentSave',{
+        u_id:this.state.loginInfo.u_id,
+        content:this.state.replyContent,
+        parent_id:'',
+        article_id:this.state.articleDetail.id,
+        token:JSON.parse(Cookies.get('loginInfo')).token
+      }).then(res=>{
+        if(res.code==='200'){
+          message.success('回复成功～')
+          this.setState({
+            replyContent:''
+          })
+          this.getCommentList()
+        }else{
+          message.success(res.msg)
+        }
+      })
+    }
+  }
+  deleteComment(params){
+    fetch.post('deleteComment',{
+      id:params.id,
+      token:JSON.parse(Cookies.get('loginInfo')).token
+    }).then(res=>{
+      if(res.code === '200'){
+        message.success('删除成功～')
+        this.getCommentList()
+      }else{
+        message.error(res.msg)
+      }
+    })
+  }
   render(){
     return(
       <div className="blogDetail-wrap">
@@ -143,7 +213,7 @@ export default class BlogDetail extends React.Component{
               </div>
               <div className="author-right">
                 <div className="collect-wrap" onClick={this.collection}>
-                  {this.state.articleDetail.hasCollect==='0'?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
+                  {this.state.articleDetail.hasCollect===0?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
                 </div>
                 {
                   this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
@@ -163,6 +233,33 @@ export default class BlogDetail extends React.Component{
             <div className="content-wrap">
               <div className="title">{this.state.articleDetail.article_title}</div>
               <div className="article-content" dangerouslySetInnerHTML = {{ __html:this.state.articleDetail.article_content }}></div>
+            </div>
+            <div className="reply-wrap">
+              <div className="textarea-wrap">
+                <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'想对作者说些什么？'}/>
+                <div className="button-wrap"><Button onClick={this.replyArticle} size={'small'} type="primary">回复</Button></div>
+              </div>
+              <div className="reply-ul">
+                {this.state.replyList.map((item,index)=>{
+                  return(
+                    <li className="reply-li" key={index}>
+                      <div className="li-left">
+                        <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                      </div>
+                      <div className="li-right">
+                        <div className="l-r-top">{item.real_name?item.real_name:item.user_name}</div>
+                        <div className="content">{item.content}</div>
+                        <div className="l-r-bottom">
+                          {window.$utils.goodTime(item.create_time/1000)}
+                          {Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
+                            <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </div>
             </div>
           </div>
         )}

@@ -1,5 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 import LoginComponent from '../views/login'
 import LayoutComponent from '../views/layout'
 import registerComponent from '../views/register'
@@ -15,12 +16,12 @@ export default class IndexRouter extends React.Component{
   render(){
     return(
       <Router>
-        <Switch>
+        <CacheSwitch>
           <Route path={"/login"} component={LoginComponent} />
           <Route path={"/register"} component={registerComponent} />
           <Route path="/" render={({history,location,match}) => (
             <LayoutComponent history={history} location={location} match={location}>
-              <Route path="/" exact component={BlogIndexComponent} />
+              <CacheRoute path="/" cacheKey="BlogIndexComponent" exact component={BlogIndexComponent} />
               <Route path="/writeBlog" exact component={WriteBlogComponent} />
               <Route path={"/PersonalCenter"} component={SiderDemo} />
               <Route path="/myBlog" exact component={MyBlogComponent} />
@@ -29,7 +30,7 @@ export default class IndexRouter extends React.Component{
             </LayoutComponent>
           )} />
           <Route component={errorComponent}/>
-        </Switch>
+        </CacheSwitch>
       </Router>
     )
   }

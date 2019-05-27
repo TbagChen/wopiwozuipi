@@ -4,7 +4,6 @@ import Header from '../components/header'
 export default class Layout extends React.Component{
 
   componentWillMount(){
-    console.log(this.props)
   }
   render(){
     return(

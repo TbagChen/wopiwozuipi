@@ -12,7 +12,6 @@ class CreateFetch {
     constructor() {
         let host = window.location.href;
         host = host.toLocaleLowerCase();
-        console.log(host)
         if (host.match('xuweijin.com')) {
             this.host = 'https://www.xuweijin.com/blogApi'
         } else {
@@ -30,7 +29,6 @@ class CreateFetch {
               'Content-Type': 'application/json'
             }
         }
-        console.log(req.token)
         if(req.token){
           this.lists.headers['Authorization'] = 'Bearer ' + req.token;
         }
@@ -48,7 +46,6 @@ class CreateFetch {
             this.lists.mode = req.mode || this.lists.mode;
         }
         let res = await fetch(this.host + url + this.body, this.lists);
-        console.log(res)
         if(res.status === '401'){
             message.error('token失效，请重新登录～')
         }else{

@@ -34,6 +34,15 @@ const APICONFIG = {
   },
   getUserBasicInfo:{
     path:'/users/getUserBasicInfo'
+  },
+  commentSave:{
+    path:'/article/commentSave'
+  },
+  getCommentList:{
+    path:'/article/getCommentList'
+  },
+  deleteComment:{
+    path:'/article/deleteComment'
   }
 }
 
