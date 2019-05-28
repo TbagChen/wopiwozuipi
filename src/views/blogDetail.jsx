@@ -18,6 +18,7 @@ export default class BlogDetail extends React.Component{
       loginInfo:'',
       modalVisible:false,
       replyContent:'',
+      replyContent1:'',
       replyList:[],
     }
     this.follow = this.follow.bind(this)
@@ -25,7 +26,10 @@ export default class BlogDetail extends React.Component{
     this.handleCancel = this.handleCancel.bind(this)
     this.replyArticle = this.replyArticle.bind(this)
     this.changeText = this.changeText.bind(this)
+    this.changeText1 = this.changeText1.bind(this)
     this.deleteComment = this.deleteComment.bind(this)
+    this.cancelReplyArticle = this.cancelReplyArticle.bind(this)
+    this.replyComment = this.replyComment.bind(this)
   }
   componentWillMount(){
     console.log(this.props)
@@ -51,6 +55,11 @@ export default class BlogDetail extends React.Component{
   changeText(e){
     this.setState({
       replyContent:e.target.value
+    })
+  }
+  changeText1(e){
+    this.setState({
+      replyContent1:e.target.value
     })
   }
   getArticleDetail(){
@@ -143,42 +152,66 @@ export default class BlogDetail extends React.Component{
     fetch.get('getCommentList',{
       article_id:this.props.match.params.article_id,
     }).then(res=>{
-      console.log(res)
-      setTimeout(()=>{
-        console.log(this.state.host)
-      },1000)
+      if(res.code==='200'){
+        res.data.forEach((item,index)=>{
+          item.showReply = false
+          item.child.forEach((option,index)=>{
+            option.showReply = false
+          })
+        })
+        this.setState({
+          replyList:res.data,
+        })
+      }else{
+        message.info(res.msg)
+      }
 
-      this.setState({
-        replyList:res.data,
-      })
     })
   }
-  replyArticle(){
-    console.log(this.state.replyContent)
+  replyArticle(params,params2){
+    console.log(params)
+    console.log(params2)
     if(!Cookies.get('loginInfo')){
       this.setState({
         modalVisible:true
       })
       return
     }
-    if(this.state.replyContent === ''){
+    let content = '',
+      parent_id = '',
+      res_u_id = ''
+    if(params){
+      content = this.state.replyContent1
+      parent_id = params.id
+      res_u_id = params.u_id
+    }else{
+      content = this.state.replyContent
+      res_u_id = this.state.articleDetail.u_id
+    }
+    if(params2){
+      console.log(params2.id)
+      parent_id = params2.id
+    }
+    if(content === ''){
       message.info('输入内容不能为空～')
     }else{
       fetch.post('commentSave',{
         u_id:this.state.loginInfo.u_id,
-        content:this.state.replyContent,
-        parent_id:'',
+        content:content,
+        parent_id:parent_id,
+        res_u_id:res_u_id,
         article_id:this.state.articleDetail.id,
         token:JSON.parse(Cookies.get('loginInfo')).token
       }).then(res=>{
         if(res.code==='200'){
           message.success('回复成功～')
           this.setState({
-            replyContent:''
+            replyContent:'',
+            replyContent1:''
           })
           this.getCommentList()
         }else{
-          message.success(res.msg)
+          message.info(res.msg)
         }
       })
     }
@@ -197,7 +230,44 @@ export default class BlogDetail extends React.Component{
     })
   }
   replyComment(params){   //回复评论
-
+    console.log(this.state.replyList)
+    if(!Cookies.get('loginInfo')){
+      this.setState({
+        modalVisible:true
+      })
+      return
+    }
+    this.setState({
+      replyContent1:''
+    })
+    this.state.replyList.forEach((item,index)=>{
+      if(item.id == params.id){
+        item.showReply = !item.showReply
+      }else{
+        item.showReply = false
+      }
+      item.child.forEach((option,index)=>{
+        if(option.id == params.id){
+          option.showReply = !option.showReply
+        }else{
+          option.showReply = false
+        }
+      })
+    })
+    this.setState({
+      replyList:this.state.replyList
+    })
+  }
+  cancelReplyArticle(){  //取消回复
+    this.state.replyList.forEach((item,index)=>{
+      item.showReply = false
+      item.child.forEach((option,index)=>{
+        option.showReply = false
+      })
+    })
+    this.setState({
+      replyList:this.state.replyList
+    })
   }
   render(){
     return(
@@ -240,7 +310,7 @@ export default class BlogDetail extends React.Component{
             <div className="reply-wrap">
               <div className="textarea-wrap">
                 <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'想对作者说些什么？'}/>
-                <div className="button-wrap"><Button onClick={this.replyArticle} size={'small'} type="primary">回复</Button></div>
+                <div className="button-wrap"><Button onClick={this.replyArticle.bind(this,'','')} size={'small'} type="primary">回复</Button></div>
               </div>
               <div className="reply-ul">
                 {this.state.replyList.map((item,index)=>{
@@ -255,17 +325,58 @@ export default class BlogDetail extends React.Component{
                         <div className="l-r-bottom">
                           {window.$utils.goodTime(item.create_time/1000)}
                           <div className="l-r-b-right">
-                            {Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
+                            {!Cookies.get('loginInfo')||JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
                               <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
                             )}
-                            <span onClick={this.replyComment.bind(this,item)}>回复</span>
+                            <span className="reply-btn" onClick={this.replyComment.bind(this,item)}>回复</span>
                           </div>
                         </div>
-                        {true &&
-                        <div>
-                          <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'回复'+item.user_name}/>
-                          <div className="button-wrap"><Button onClick={this.replyArticle} size={'small'} type="primary">回复</Button></div>
+                        {item.showReply &&
+                        <div className="reply-r-wrap">
+                          <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+item.real_name}/>
+                          <div className="button-wrap">
+                            <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
+                            <Button onClick={this.replyArticle.bind(this,item,'')} size={'small'} type="primary">回复</Button>
+                          </div>
                         </div>
+                        }
+                        {
+                          item.child.length>0 &&
+                          <ul className="reply-r-ul">
+                            {item.child.map((option,index)=>{
+                              return(
+                                <li className="reply-li reply-r-ul-li" key={index}>
+                                  <div className="li-left">
+                                    <img className="img-avater" src={option.avater?(option.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                                  </div>
+                                  <div className="li-right">
+                                    <div className="l-r-top">{option.real_name?option.real_name:option.user_name}</div>
+                                    <div className="l-r-top">回复 <span className="reply-name">{option.res_real_name}</span>：{option.content}</div>
+                                    {/*<div className="content">{option.content}</div>*/}
+                                    <div className="l-r-bottom">
+                                      {window.$utils.goodTime(option.create_time/1000)}
+                                      <div className="l-r-b-right">
+                                        {!(Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id === option.u_id)?"":(
+                                          <div className="delete-wrap" onClick={this.deleteComment.bind(this,option)}>删除</div>
+                                        )}
+                                        <span className="reply-btn" onClick={this.replyComment.bind(this,option)}>回复</span>
+                                      </div>
+                                    </div>
+                                    {option.showReply &&
+                                    <div className="reply-r-wrap reply-r-wrap-s">
+                                      <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+option.real_name}/>
+                                      <div className="button-wrap">
+                                        <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
+                                        <Button onClick={this.replyArticle.bind(this,option,item)} size={'small'} type="primary">回复</Button>
+                                      </div>
+                                    </div>
+                                    }
+                                  </div>
+
+                                </li>
+                              )
+                            })}
+                          </ul>
                         }
                       </div>
                     </li>
