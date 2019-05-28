@@ -79,11 +79,23 @@
             border-radius: 50%;
           }
         }
+        .reply-r-ul{
+          padding: 20px 15px 10px;
+          background: #fafbfc;
+          .li-right{
+            .reply-r-wrap-s{
+              background: #fff;
+            }
+          }
+        }
         .li-right{
           flex: 1;
           float: left;
           margin-bottom: 20px;
           border-bottom: 1px solid #f1f1f1;
+          .reply-name{
+            color:#3498db;
+          }
           .l-r-top{
             font-size: 14px;
             color :#333;
@@ -100,10 +112,34 @@
             height: 40px;
             line-height: 40px;
             font-size: 14px;
+            margin-left: 10px;
             color:#8a9aa9;
-            .delete-wrap{
+            .l-r-b-right{
               float: right;
+            }
+            .delete-wrap{
+              float: left;
+              margin-right: 10px;
               cursor: pointer;
+            }
+            .reply-btn{
+              cursor: pointer;
+            }
+          }
+          .reply-r-wrap{
+            padding: 15px 10px;
+            background: #fafbfc;
+            overflow: hidden;
+            margin-bottom: 10px;
+            .button-wrap{
+              float: right;
+              margin-top: 10px;
+              .ant-btn{
+                font-size: 12px;
+              }
+            }
+            .cancel-btn{
+              margin-right: 10px;
             }
           }
         }
