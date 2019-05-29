@@ -203,6 +203,7 @@ export default class BlogDetail extends React.Component{
         article_id:this.state.articleDetail.id,
         token:JSON.parse(Cookies.get('loginInfo')).token
       }).then(res=>{
+        console.log(res)
         if(res.code==='200'){
           message.success('回复成功～')
           this.setState({

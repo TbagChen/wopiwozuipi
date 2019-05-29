@@ -1,23 +1,25 @@
-
+import React from 'react'
 
 import API from './api'
 import {message} from 'antd'
+import {withRouter} from "react-router-dom";
 require('es6-promise').polyfill();
 
 const fetch = require('isomorphic-fetch');
 
 
 
-class CreateFetch {
-    constructor() {
-        let host = window.location.href;
-        host = host.toLocaleLowerCase();
-        if (host.match('xuweijin.com')) {
-            this.host = 'https://www.xuweijin.com/blogApi'
-        } else {
-            this.host = 'http://localhost:3003'    //http://localhost:3003
-        }
+class CreateFetch  extends React.Component{
+  constructor(props) {
+    super(props);
+    let host = window.location.href;
+    host = host.toLocaleLowerCase();
+    if (host.match('xuweijin.com')) {
+        this.host = 'https://www.xuweijin.com/blogApi'
+    } else {
+        this.host = 'http://localhost:3003'    //http://localhost:3003
     }
+  }
     async get(url, req) {
         url = API[url].path;
         this.lists = {
@@ -46,12 +48,11 @@ class CreateFetch {
             this.lists.mode = req.mode || this.lists.mode;
         }
         let res = await fetch(this.host + url + this.body, this.lists);
-        if(res.status === '401'){
+        if(res.status === 401){
             message.error('token失效，请重新登录～')
         }else{
           return await res.json()
         }
-
     }
     async post(url, req) {
         url = API[url].path;
@@ -74,8 +75,10 @@ class CreateFetch {
             this.lists.body = JSON.stringify(this.lists.body)
         }
         let res = await fetch(this.host + url, this.lists);
-      if(res.status === '401'){
+      if(res.status === 401){
         message.error('token失效，请重新登录～')
+        console.log(this.props)
+        this.props.history.push("/some/Path");
       }else{
         return await res.json()
       }
@@ -84,4 +87,4 @@ class CreateFetch {
 
 const Structure = new CreateFetch()
 
-export default Structure
+export default withRouter(Structure)
