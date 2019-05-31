@@ -11,6 +11,9 @@ import WriteBlogComponent from '../views/writeBlog'
 import BlogDetailComponent from '../views/blogDetail'
 import MyBlogComponent from '../views/myBlog'
 import UserComponent from '../views/user'
+import FollowsComponent from '../views/users/follows'
+import ArticleComponent from '../views/users/article'
+import CollectionsComponent from '../views/users/collections'
 
 export default class IndexRouter extends React.Component{
   render(){
@@ -20,13 +23,20 @@ export default class IndexRouter extends React.Component{
           <Route path={"/login"} component={LoginComponent} />
           <Route path={"/register"} component={registerComponent} />
           <Route path="/" render={({history,location,match}) => (
-            <LayoutComponent history={history} location={location} match={location}>
+            <LayoutComponent history={history} location={location} match={match}>
               <CacheRoute path="/" cacheKey="BlogIndexComponent" exact component={BlogIndexComponent} />
               <Route path="/writeBlog" exact component={WriteBlogComponent} />
               <Route path={"/PersonalCenter"} component={SiderDemo} />
               <Route path="/myBlog" exact component={MyBlogComponent} />
               <Route path="/blogDetail/:article_id" exact component={BlogDetailComponent} />
-              <Route path="/user/:u_id" exact component={UserComponent} />
+              {/*<Route path="/user/:u_id" exact component={UserComponent} />*/}
+              <Route path="/user/:u_id" render={({history,location,match}) => (
+                <UserComponent history={history} location={location} match={match} exact>
+                  <Route path="/user/:u_id" exact component={ArticleComponent} />
+                  <Route path="/user/:u_id/collections" component={CollectionsComponent} />
+                  <Route path="/user/:u_id/follows" component={FollowsComponent} />
+                </UserComponent>
+              )} />
             </LayoutComponent>
           )} />
           <Route component={errorComponent}/>
