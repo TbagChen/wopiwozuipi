@@ -71,5 +71,41 @@
   }
   .blog-ul{
     margin-top: 0;
+    .li-wrap{
+      .li-top{
+        overflow: hidden;
+        font-size: 14px;
+        .l-t-l{
+          float: left;
+          .img-avater{
+            margin-top: 10px;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+        .l-t-m{
+          float: left;
+          margin-left: 10px;
+          height: 50px;
+          line-height: 50px;
+        }
+      }
+      .tc-content{
+        .li-title{
+          font-size: 24px;
+          font-weight: bold;
+          height: 50px;
+          line-height: 40px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+        }
+        .li-content{
+          font-size: 15px;
+        }
+      }
+    }
   }
 }

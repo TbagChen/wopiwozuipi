@@ -16,6 +16,17 @@ export default class Articles extends React.Component{
   }
   componentWillMount(){
     this.getBlogList()
+    let host1 = window.location.href;
+    host1 = host1.toLocaleLowerCase();
+    if (host1.match('xuweijin.com')) {
+      this.setState({
+        host:'https://www.xuweijin.com/blogApi'
+      })
+    } else {
+      this.setState({
+        host:'http://localhost:3003'
+      })
+    }
   }
   getBlogList(){
     fetch.get("getArticle",{
@@ -43,9 +54,14 @@ export default class Articles extends React.Component{
                 this.state.blogList.map((item, index) => {
                     return (<li key={index} className="li-wrap" >
                         <div className="li-top">
-                          <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
-                          <span>{item.tag_name}</span>・
-                          <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                          <div className="l-t-l">
+                            <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                          </div>
+                          <div className="l-t-m">
+                            <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
+                            <span>{item.tag_name}</span>・
+                            <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                          </div>
                         </div>
                         <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
                           <div className="li-title">{item.article_title}</div>
