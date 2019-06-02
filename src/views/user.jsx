@@ -21,10 +21,12 @@ export default class User extends React.Component{
     this.follow = this.follow.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
+  componentWillReceiveProps(nextProps){
+    let key = nextProps.match.params.u_id;
+    this.getBlogList(key)
+    this.getUserBasicInfo(key)
+  }
   componentWillMount(){
-    console.log(this.props.match)
-    this.getBlogList()
-    this.getUserBasicInfo()
     let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();
     if (host1.match('xuweijin.com')) {
@@ -41,10 +43,13 @@ export default class User extends React.Component{
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
+    console.log(this.props)
+    let key = this.props.match.params.u_id
+    this.getUserBasicInfo(key)
   }
-  getBlogList(){
+  getBlogList(params){
     fetch.get("getArticle",{
-      u_id:this.props.match.params.u_id,
+      u_id:params,
     }).then(res=>{
       this.setState({
         blogList:res.data
@@ -94,9 +99,9 @@ export default class User extends React.Component{
       })
     }
   }
-  getUserBasicInfo(){
+  getUserBasicInfo(params){
     fetch.get("getUserBasicInfo",{
-      u_id:this.props.match.params.u_id,
+      u_id:params,
       token:Cookies.get('loginInfo')?JSON.parse(Cookies.get('loginInfo')).token:''
     }).then(res=>{
       this.setState({
@@ -152,6 +157,7 @@ export default class User extends React.Component{
             <li className="tab-li"><NavLink exact to={this.props.match.url}>文章</NavLink></li>
             <li className="tab-li"><NavLink to={this.props.match.url+'/collections'}>收藏</NavLink></li>
             <li className="tab-li"><NavLink to={this.props.match.url+'/follows'}>关注</NavLink></li>
+            <li className="tab-li"><NavLink to={this.props.match.url+'/followees'}>关注者</NavLink></li>
           </ul>
         </div>
         <div>

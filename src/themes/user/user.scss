@@ -108,4 +108,61 @@
       }
     }
   }
+  .follows-wrap-s{
+    min-height: 100px;
+    padding:0 0px 20px;
+    background: #fff;
+    .load-wrap{
+      text-align: center;
+      padding: 50px 0;
+    }
+    .user-ul{
+      .user-li{
+        overflow: hidden;
+        height: 100px;
+        padding: 0 20px;
+        border-bottom: 1px solid #f7f8f9;
+        .li-left{
+          float: left;
+          .img-wrap{
+            .img-avater{
+              display: inline-block;
+              margin-top: 27px;
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+            }
+            .name-wrap{
+              line-height: 100px;
+              margin-left: 15px;
+              font-size: 18px;
+              color:#333;
+              cursor: pointer;
+            }
+          }
+        }
+        .li-right{
+          float: right;
+          .ant-btn{
+            height: 28px;
+            line-height: 28px;
+          }
+          .btn-usual{
+            width: 74px;
+            text-align: center;
+            margin-top: 36px;
+          }
+          .hasFollowed{
+            background: #4ad9fd;
+            border: 1px solid #4ad9fd;
+            color:#fff;
+          }
+          .noFollow{
+            color:#4ad9fd;
+            border: 1px solid #4ad9fd;
+          }
+        }
+      }
+    }
+  }
 }

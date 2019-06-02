@@ -32,7 +32,7 @@ const APICONFIG = {
   follow: {
     path: '/users/follow'
   },
-  getUserBasicInfo:{
+  getUserBasicInfo:{   //获取用户基本信息
     path:'/users/getUserBasicInfo'
   },
   commentSave:{
@@ -43,6 +43,12 @@ const APICONFIG = {
   },
   deleteComment:{
     path:'/article/deleteComment'
+  },
+  getFollowList:{   //获取关注列表
+    path:'/users/needless/getFollowerList'
+  },
+  getFollowingList:{   //获取粉丝列表
+    path:'/users/needless/getFollowingList'
   }
 }
 

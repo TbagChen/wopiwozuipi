@@ -12,6 +12,7 @@ import BlogDetailComponent from '../views/blogDetail'
 import MyBlogComponent from '../views/myBlog'
 import UserComponent from '../views/user'
 import FollowsComponent from '../views/users/follows'
+import FolloweesComponent from '../views/users/followees'
 import ArticleComponent from '../views/users/article'
 import CollectionsComponent from '../views/users/collections'
 
@@ -35,6 +36,7 @@ export default class IndexRouter extends React.Component{
                   <Route path="/user/:u_id" exact component={ArticleComponent} />
                   <Route path="/user/:u_id/collections" component={CollectionsComponent} />
                   <Route path="/user/:u_id/follows" component={FollowsComponent} />
+                  <Route path="/user/:u_id/followees" component={FolloweesComponent} />
                 </UserComponent>
               )} />
             </LayoutComponent>
