@@ -1,5 +1,6 @@
 import React from 'react'
 import FollowList from '../../components/followList'
+import Cookies from 'js-cookie'
 
 import {message} from 'antd'
 
@@ -8,16 +9,25 @@ export default class Follows extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      userList:''
+      userList:'',
+      loginInfo:'',
     }
     this.getUserList = this.getUserList.bind(this)
   }
   componentWillMount(){
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
+  }
+  componentDidMount(){
     this.getUserList()
   }
   getUserList(){
     fetch.get('getFollowList',{
       u_id:this.props.match.params.u_id,
+      token:this.state.loginInfo?this.state.loginInfo.token:'',
     }).then(res=>{
       if(res.code === '200'){
         this.setState({

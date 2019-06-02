@@ -49,6 +49,9 @@ const APICONFIG = {
   },
   getFollowingList:{   //获取粉丝列表
     path:'/users/needless/getFollowingList'
+  },
+  getCollection:{   //获取收藏文章列表
+    path:'/article/needless/getCollection'
   }
 }
 
