@@ -15,6 +15,7 @@ import FollowsComponent from '../views/users/follows'
 import FolloweesComponent from '../views/users/followees'
 import ArticleComponent from '../views/users/article'
 import CollectionsComponent from '../views/users/collections'
+import TagsComponent from '../views/users/tags'
 
 export default class IndexRouter extends React.Component{
   render(){
@@ -35,6 +36,7 @@ export default class IndexRouter extends React.Component{
                 <UserComponent history={history} location={location} match={match} exact>
                   <Route path="/user/:u_id" exact component={ArticleComponent} />
                   <Route path="/user/:u_id/collections" component={CollectionsComponent} />
+                  <Route path="/user/:u_id/tags" component={TagsComponent} />
                   <Route path="/user/:u_id/follows" component={FollowsComponent} />
                   <Route path="/user/:u_id/followees" component={FolloweesComponent} />
                 </UserComponent>

@@ -139,9 +139,9 @@ export default class User extends React.Component{
                     <div className="button-wrap">
                       {
                         this.state.userInfo.hasFollowed === 0?(
-                          <Button onClick={this.follow}>关注</Button>
+                          <Button className={'noFollow noFollow'} onClick={this.follow}>关注</Button>
                         ):(
-                          <Button onClick={this.follow}>已关注</Button>
+                          <Button className={'btn-usual hasFollowed'} onClick={this.follow}>已关注</Button>
                         )
                       }
                     </div>
@@ -155,6 +155,7 @@ export default class User extends React.Component{
         <div className="tab-wrap">
           <ul className="tab-ul">
             <li className="tab-li"><NavLink exact to={this.props.match.url}>文章</NavLink></li>
+            <li className="tab-li"><NavLink exact to={this.props.match.url+'/tags'}>标签</NavLink></li>
             <li className="tab-li"><NavLink to={this.props.match.url+'/collections'}>收藏</NavLink></li>
             <li className="tab-li"><NavLink to={this.props.match.url+'/follows'}>关注</NavLink></li>
             <li className="tab-li"><NavLink to={this.props.match.url+'/followees'}>关注者</NavLink></li>

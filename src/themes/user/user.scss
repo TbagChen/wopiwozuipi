@@ -44,6 +44,21 @@
       .button-wrap{
         margin:70px 20px 0 0;
       }
+      .btn-usual{
+        width: 74px;
+        text-align: center;
+        height: 28px;
+        line-height: 26px;
+      }
+      .hasFollowed{
+        background: #1890ff;
+        border: 1px solid #1890ff;
+        color:#fff;
+      }
+      .noFollow{
+        color:#1890ff;
+        border: 1px solid #1890ff;
+      }
     }
   }
   .tab-wrap{
@@ -145,7 +160,7 @@
           float: right;
           .ant-btn{
             height: 28px;
-            line-height: 28px;
+            line-height: 26px;
           }
           .btn-usual{
             width: 74px;
@@ -153,13 +168,13 @@
             margin-top: 36px;
           }
           .hasFollowed{
-            background: #4ad9fd;
-            border: 1px solid #4ad9fd;
+            background: #1890ff;
+            border: 1px solid #1890ff;
             color:#fff;
           }
           .noFollow{
-            color:#4ad9fd;
-            border: 1px solid #4ad9fd;
+            color:#1890ff;
+            border: 1px solid #1890ff;
           }
         }
       }
@@ -173,5 +188,27 @@
   .collections-wrap{
     min-height: 100px;
     background: #fff;
+  }
+  .tags-wrap{
+    background: #fff;
+    overflow: hidden;
+    .tags-content{
+      .tags-ul{
+        padding: 20px 0 20px 10px;
+        .tags-li{
+          float: left;
+          padding: 0 10px;
+          margin-right: 15px;
+          height: 26px;
+          line-height: 24px;
+          border: 1px solid #1890ff;
+          cursor: pointer;
+        }
+        .active{
+          background: #1890ff;
+          color: #fff;
+        }
+      }
+    }
   }
 }

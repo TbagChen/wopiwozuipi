@@ -9,7 +9,7 @@ const APICONFIG = {
     path:'/article/getArticle'
   },
   getTagList:{
-    path:'/users/getTag'
+    path:'/users/needless/getTag'
   },
   publish:{  //发布文章
     path:'/users/publish'
@@ -52,6 +52,9 @@ const APICONFIG = {
   },
   getCollection:{   //获取收藏文章列表
     path:'/article/needless/getCollection'
+  },
+  getArticleByTags:{   //获取收藏文章列表
+    path:'/article/needless/getArticleByTags'
   }
 }
 
