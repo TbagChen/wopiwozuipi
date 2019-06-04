@@ -80,7 +80,7 @@ export default class Tags extends React.Component{
                   this.state.tagsList.map((item,index)=>{
                     return(
                       <li key={index} className={['tags-li',item.id===this.state.selectTag?'active':''].join(' ')} onClick={this.changeTag.bind(this,item)}>
-                        {item.name}
+                        {item.name}・({item.article_count}篇)
                       </li>
                     )
                   })
@@ -89,39 +89,42 @@ export default class Tags extends React.Component{
             }
           </ul>
         </div>
-        <div className="article-content-list">
-          <ul className="blog-ul" >
-            {this.state.blogList === ''?(
-              <Skeleton active />
-            ):(
-              this.state.blogList.length === 0?(
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        {
+          this.state.tagsList.length>0 &&
+          <div className="article-content-list">
+            <ul className="blog-ul" >
+              {this.state.blogList === ''?(
+                <Skeleton active />
               ):(
-                this.state.blogList.map((item, index) => {
-                    return (<li key={index} className="li-wrap" >
-                        <div className="li-top">
-                          <div className="l-t-l">
-                            <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                this.state.blogList.length === 0?(
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                ):(
+                  this.state.blogList.map((item, index) => {
+                      return (<li key={index} className="li-wrap" >
+                          <div className="li-top">
+                            <div className="l-t-l">
+                              <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                            </div>
+                            <div className="l-t-m">
+                              <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
+                              <span>{item.tag_name}</span>・
+                              <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                            </div>
                           </div>
-                          <div className="l-t-m">
-                            <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
-                            <span>{item.tag_name}</span>・
-                            <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
+                          <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
+                            <div className="li-title">{item.article_title}</div>
+                            <div className="li-content">{item.article_text}</div>
                           </div>
-                        </div>
-                        <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
-                          <div className="li-title">{item.article_title}</div>
-                          <div className="li-content">{item.article_text}</div>
-                        </div>
-                        {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
-                      </li>
-                    )
-                  }
+                          {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
+                        </li>
+                      )
+                    }
+                  )
                 )
-              )
-            )}
-          </ul>
-        </div>
+              )}
+            </ul>
+          </div>
+        }
       </div>
     )
   }
