@@ -1,6 +1,7 @@
 import React from 'react'
 import {Empty,Skeleton,Spin,Button,message,Modal} from 'antd'
-
+import Cookies from 'js-cookie'
+const confirm = Modal.confirm;
 export default class Articles extends React.Component{
   constructor(props){
     super(props)
@@ -27,6 +28,11 @@ export default class Articles extends React.Component{
         host:'http://localhost:3003'
       })
     }
+    if(Cookies.get('loginInfo')){
+      this.setState({
+        loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      })
+    }
   }
   getBlogList(){
     fetch.get("getArticle",{
@@ -39,6 +45,61 @@ export default class Articles extends React.Component{
   }
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
+  }
+  deleteArticle(params){
+    let that = this
+    confirm({
+      title: '确认删除此文章吗?',
+      content: '删除后不可恢复',
+      centered:true,
+      okText: '确认',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        console.log('OK');
+        fetch.post("deleteArticle",{
+          id:params.id,
+          token:that.state.loginInfo.token
+        }).then(res=>{
+          if(res.code === '200'){
+            message.success('删除成功～')
+            that.getBlogList()
+          }else{
+            message.info(res.msg)
+          }
+        })
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+    /*fetch.post("deleteArticle",{
+      id:params.id,
+      token:this.state.loginInfo.token
+    }).then(res=>{
+      if(res.code === '200'){
+        message.success('删除成功～')
+        this.getBlogList()
+      }else{
+        message.info(res.msg)
+      }
+    })*/
+  }
+  showDeleteConfirm(callback) {
+    confirm({
+      title: '确认删除此文章吗?',
+      content: '删除后不可恢复',
+      okText: '确认',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        callback()
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
   }
   render(){
     return(
@@ -66,6 +127,13 @@ export default class Articles extends React.Component{
                         <div className="tc-content" onClick={this.goDetail.bind(this, item)}>
                           <div className="li-title">{item.article_title}</div>
                           <div className="li-content">{item.article_text}</div>
+                        </div>
+                        <div className="tc-bottom">
+                          {
+                            (this.state.loginInfo&&this.state.loginInfo.u_id === this.props.match.params.u_id)&&(
+                              <button onClick={this.deleteArticle.bind(this,item)}>删除</button>
+                            )
+                          }
                         </div>
                         {/*<div dangerouslySetInnerHTML = {{ __html:item.article_content }}></div>*/}
                       </li>

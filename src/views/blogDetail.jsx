@@ -5,6 +5,8 @@ import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
 import 'braft-editor/dist/index.css'
 const { TextArea } = Input;
+const confirm = Modal.confirm;
+
 
 
 
@@ -218,20 +220,33 @@ export default class BlogDetail extends React.Component{
     }
   }
   deleteComment(params){
-    fetch.post('deleteComment',{
-      id:params.id,
-      token:JSON.parse(Cookies.get('loginInfo')).token
-    }).then(res=>{
-      if(res.code === '200'){
-        message.success('删除成功～')
-        this.getCommentList()
-      }else{
-        message.error(res.msg)
-      }
-    })
+    const that = this
+    confirm({
+      title: '确认删除此回复吗?',
+      content: '删除后不可恢复！',
+      okText: '确认',
+      centered:true,
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        fetch.post('deleteComment',{
+          id:params.id,
+          token:JSON.parse(Cookies.get('loginInfo')).token
+        }).then(res=>{
+          if(res.code === '200'){
+            message.success('删除成功～')
+            that.getCommentList()
+          }else{
+            message.error(res.msg)
+          }
+        })
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
   }
   replyComment(params){   //回复评论
-    console.log(this.state.replyList)
     if(!Cookies.get('loginInfo')){
       this.setState({
         modalVisible:true

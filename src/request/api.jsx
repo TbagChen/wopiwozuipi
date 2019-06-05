@@ -55,7 +55,10 @@ const APICONFIG = {
   },
   getArticleByTags:{   //获取收藏文章列表
     path:'/article/needless/getArticleByTags'
-  }
+  },
+  deleteArticle:{   //删除文章
+    path:'/article/deleteArticle'
+  },
 }
 
 export default APICONFIG
