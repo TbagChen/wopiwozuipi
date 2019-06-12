@@ -2,8 +2,9 @@ import React from 'react'
 import '../themes/index/index.scss'
 import Cookies from 'js-cookie'
 import {Skeleton,Empty} from 'antd'
+import {connect} from 'react-redux';
 
-export default class BlogIndexComponent extends React.Component{
+class BlogIndexComponent extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -14,6 +15,7 @@ export default class BlogIndexComponent extends React.Component{
     this.goUser = this.goUser.bind(this)
   }
   componentDidMount(){
+    console.log(this.props)
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
@@ -77,3 +79,7 @@ export default class BlogIndexComponent extends React.Component{
     )
   }
 }
+
+export default connect(
+  state=>state
+)(BlogIndexComponent)
