@@ -4,13 +4,15 @@ import {Spin,Button,message,Modal,Icon,Input} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
 import 'braft-editor/dist/index.css'
+import {connect} from 'react-redux';
 const { TextArea } = Input;
 const confirm = Modal.confirm;
 
 
 
 
-export default class BlogDetail extends React.Component{
+
+class BlogDetail extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -23,6 +25,7 @@ export default class BlogDetail extends React.Component{
       replyContent1:'',
       replyList:[],
     }
+    console.log(props)
     this.follow = this.follow.bind(this)
     this.collection = this.collection.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
@@ -417,3 +420,7 @@ export default class BlogDetail extends React.Component{
     )
   }
 }
+
+export default connect(
+  state=>state
+)(BlogDetail)

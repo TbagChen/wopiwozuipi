@@ -3,6 +3,7 @@ import '../themes/index/index.scss'
 import Cookies from 'js-cookie'
 import {Skeleton,Empty} from 'antd'
 import {connect} from 'react-redux';
+import {addId} from '../redux/actions'
 
 class BlogIndexComponent extends React.Component{
   constructor(props){
@@ -44,9 +45,15 @@ class BlogIndexComponent extends React.Component{
   goUser(params){
     this.props.history.push('/user/'+params.u_id)
   }
+  addIdF(){
+    this.props.dispatch(addId(2))
+    console.log(this.props)
+  }
   render(){
     return(
       <div >
+        {/*<div><button onClick={this.addIdF.bind(this)}>添加state</button></div>
+        u_id:{this.props.userInfo.id}*/}
         <ul className="blog-ul" >
           {this.state.blogList === ''?(
             <Skeleton active />

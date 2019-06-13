@@ -4,16 +4,15 @@ const userInfoInit = {
 }
 
 const userInfo = (state = userInfoInit,action) =>{
+  console.log('111')
   switch (action.type){
-    case 'LOGIN':
-      return [
-        ...state,{
-          
-        }
-      ]
+    case 'ADD_ID':
+      return Object.assign({},state,{
+        id: action.id
+      })
+    default:
+      return state
   }
-
-  return state
 }
 
 export default userInfo
