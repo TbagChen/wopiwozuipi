@@ -1,5 +1,5 @@
 import React from 'react'
-import { message, Icon, Button,Layout, Menu ,Upload, Radio } from 'antd'
+import {  Icon, Button,Layout, Menu ,Upload } from 'antd'
 import '../themes/PersonalCenter/PersonalCenter.scss'
 import utils from '../utils'
 import Cookies from 'js-cookie'
@@ -12,6 +12,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
+/*
 function beforeUpload(file) {
   const isJPG = file.type === 'image/jpeg';
   if (!isJPG) {
@@ -23,6 +24,7 @@ function beforeUpload(file) {
   }
   return isJPG && isLt2M;
 }
+*/
 
 
 

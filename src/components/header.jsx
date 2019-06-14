@@ -25,6 +25,7 @@ export default class Header extends React.Component {
     }
   }
   logout(){
+    console.log('tuichu')
     Cookies.remove('loginInfo')
     this.props.props.history.push('/login')
   }
@@ -104,7 +105,7 @@ export default class Header extends React.Component {
                     <span onClick={this.toMyBlog}><Icon type="meh" />我的博客</span>
                   </Menu.Item>
                   <Menu.Item key="Personal">
-                    <a href="javascript:;" onClick={this.toPersonalCenter}><Icon type="meh" />个人中心</a>
+                    <span onClick={this.toPersonalCenter}><Icon type="meh" />个人中心</span>
                     {/* <NavLink to={'/PersonalCenter'}><Icon type="meh" />个人中心</NavLink> */}
                   </Menu.Item>
                 </Menu>

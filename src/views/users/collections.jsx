@@ -1,5 +1,5 @@
 import React from 'react'
-import {Empty,Skeleton,Spin,Button,message,Modal} from 'antd'
+import {Empty,Skeleton} from 'antd'
 
 export default class Collections extends React.Component{
   constructor(props){

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Empty,Skeleton,Spin,Button,message,Modal} from 'antd'
+import {Empty,Skeleton,Spin} from 'antd'
 
 export default class Tags extends React.Component{
   constructor(props){

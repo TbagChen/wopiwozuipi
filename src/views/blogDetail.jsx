@@ -72,11 +72,6 @@ class BlogDetail extends React.Component{
       id:this.props.match.params.article_id,
       u_id:Cookies.get('loginInfo')?JSON.parse(Cookies.get('loginInfo')).u_id:''
     }).then(res=>{
-      console.log(res)
-      setTimeout(()=>{
-        console.log(this.state.host)
-      },1000)
-
       this.setState({
         articleDetail:res.data,
         hasFollowed:res.data.hasFollowed
@@ -260,13 +255,13 @@ class BlogDetail extends React.Component{
       replyContent1:''
     })
     this.state.replyList.forEach((item,index)=>{
-      if(item.id == params.id){
+      if(item.id === params.id){
         item.showReply = !item.showReply
       }else{
         item.showReply = false
       }
       item.child.forEach((option,index)=>{
-        if(option.id == params.id){
+        if(option.id === params.id){
           option.showReply = !option.showReply
         }else{
           option.showReply = false
