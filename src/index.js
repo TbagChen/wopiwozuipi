@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import fetch from './request/server'
 import utils from './utils/index'
-import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import rootReducer from './redux/reducers'
+import configureStore from './redux'
 
 import App from './app.jsx';
 import * as serviceWorker from './serviceWorker';
 
+const store = configureStore
+
 window.fetch = fetch
 window.$utils = utils
 
-const store = createStore(rootReducer)
 console.log(store.getState())
 
 ReactDOM.render(<Provider store={store}><App /></Provider> , document.getElementById('root'));

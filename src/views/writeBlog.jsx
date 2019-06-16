@@ -142,14 +142,14 @@ class WriteBlog extends React.Component{
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
         console.log(res)
         this.setState({
-          imageUrl:'http://pr42y3dpx.bkt.clouddn.com/'+res
+          imageUrl:'http://img.xuweijin.com/'+res
         })
         this.props.form.validateFields((error, values) => {
           console.log('1241241')
           this.props.form.setFieldsValue({
             content: ContentUtils.insertMedias(values.content, [{
               type: 'IMAGE',
-              url: 'http://pr42y3dpx.bkt.clouddn.com/'+res
+              url: 'http://img.xuweijin.com/'+res
             }])
           })
         })

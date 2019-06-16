@@ -3,7 +3,8 @@ import {combineReducers} from 'redux'
 import userInfo from './userInfo'
 import blog from './blog'
 
-export default combineReducers({
+const reducers =  combineReducers({
   userInfo,
   blog
 })
+export default reducers
