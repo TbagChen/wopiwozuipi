@@ -4,6 +4,12 @@ import Cookies from 'js-cookie'
 import {Skeleton,Empty} from 'antd'
 import {connect} from 'react-redux';
 import {addId} from '../redux/actions'
+import {getBlogList} from "../redux/middlewares/api";
+
+const mapStateToProps = (state, ownProps) => ({
+  //console.log(state)
+})
+
 
 class BlogIndexComponent extends React.Component{
   constructor(props){
@@ -23,6 +29,9 @@ class BlogIndexComponent extends React.Component{
       })
     }
     this.getBlogList()
+    const action = getBlogList()
+    this.props.dispatch(action)
+    console.log(this.props)
   }
   getBlogList(){
     /*axios.get('http://localhost:3003/article/getArticle?u_id=1').then((res)=>{
@@ -55,7 +64,7 @@ class BlogIndexComponent extends React.Component{
         {/*<div><button onClick={this.addIdF.bind(this)}>添加state</button></div>
         u_id:{this.props.userInfo.id}*/}
         <ul className="blog-ul" >
-          {this.state.blogList === ''?(
+          {this.props.blog.blogList === ''?(
             <Skeleton active />
           ):(
             this.state.blogList.length === 0?(
