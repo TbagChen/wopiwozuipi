@@ -6,9 +6,9 @@ const userInfoInit = {
 const userInfo = (state = userInfoInit,action) =>{
   console.log('111')
   switch (action.type){
-    case 'ADD_ID':
+    case 'ADD_USERINFO':
       return Object.assign({},state,{
-        id: action.id
+        userInfo: action.data
       })
     default:
       return state

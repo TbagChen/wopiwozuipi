@@ -1,8 +1,8 @@
-let nextId = 1
 
-export const addId = id => ({
-  type: 'ADD_ID',
-  id:++nextId
+
+export const addUserInfo = data => ({
+  type: 'ADD_USERINFO',
+  data:data
 })
 
 export const addBlogList = blogList => ({

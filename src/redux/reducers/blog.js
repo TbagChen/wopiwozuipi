@@ -1,4 +1,4 @@
-const blog = (state={blogList:[]},action) => {
+const blog = (state={blogList:''},action) => {
   console.log(action.blogList)
   switch (action.type){
     case 'ADD_BLOG_LIST' :

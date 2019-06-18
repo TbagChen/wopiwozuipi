@@ -2,13 +2,10 @@ import React from 'react'
 import '../themes/index/index.scss'
 import Cookies from 'js-cookie'
 import {Skeleton,Empty} from 'antd'
-import {connect} from 'react-redux';
-import {addId} from '../redux/actions'
+import { connect } from 'react-redux';
 import {getBlogList} from "../redux/middlewares/api";
 
-const mapStateToProps = (state, ownProps) => ({
-  //console.log(state)
-})
+
 
 
 class BlogIndexComponent extends React.Component{
@@ -28,12 +25,12 @@ class BlogIndexComponent extends React.Component{
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
-    this.getBlogList()
-    const action = getBlogList()
-    this.props.dispatch(action)
+    //this.getBlogList1()
+    //const action = getBlogList()
+    this.props.getBlogList()
     console.log(this.props)
   }
-  getBlogList(){
+  getBlogList1(){
     /*axios.get('http://localhost:3003/article/getArticle?u_id=1').then((res)=>{
       this.setState({
         blogList:res.data.data
@@ -55,22 +52,22 @@ class BlogIndexComponent extends React.Component{
     this.props.history.push('/user/'+params.u_id)
   }
   addIdF(){
-    this.props.dispatch(addId(2))
     console.log(this.props)
   }
   render(){
+    console.log(this.props)
     return(
       <div >
         {/*<div><button onClick={this.addIdF.bind(this)}>添加state</button></div>
         u_id:{this.props.userInfo.id}*/}
         <ul className="blog-ul" >
-          {this.props.blog.blogList === ''?(
+          {this.props.blogList === ''?(
             <Skeleton active />
           ):(
-            this.state.blogList.length === 0?(
+            this.props.blogList === 0?(
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ):(
-              this.state.blogList.map((item, index) => {
+              this.props.blogList.map((item, index) => {
                   return (<li key={index} className="li-wrap" >
                       <div className="li-top">
                         <span className="to-user-btn" onClick={this.goUser.bind(this, item)}>{item.real_name?(item.real_name):(item.user_name)}</span>・
@@ -95,7 +92,10 @@ class BlogIndexComponent extends React.Component{
     )
   }
 }
-
+const mapStatetoProps = (state)=>{
+  return {blogList:state.blog.blogList}
+}
+const actionCreators = {getBlogList}
 export default connect(
-  state=>state
+  mapStatetoProps,actionCreators
 )(BlogIndexComponent)

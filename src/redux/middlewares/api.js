@@ -7,9 +7,11 @@ export const getBlogList = () => {
       u_id:'',
       //token:JSON.parse(Cookies.get('loginInfo')).token||'',
     }).then(res=>{
+      console.log(res)
       const data=res.data;
       const action = addBlogList(data);
       dispatch(action);
+      return data
     })
   }
 }

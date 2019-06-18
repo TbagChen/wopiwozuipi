@@ -4,6 +4,8 @@ import { message, Form, Icon, Input, Button, Checkbox} from 'antd'
 import '../themes/register/login.scss'
 import Cookies from 'js-cookie'
 import utils from '../utils'
+import { connect } from 'react-redux';
+import {addUserInfo} from '../redux/actions'
 
 class NormalLoginForm extends React.Component {
   constructor(props){
@@ -23,7 +25,9 @@ class NormalLoginForm extends React.Component {
           if(res.code !== '200'){
             message.error(res.msg)
           }else{
+            console.log(this.props)
             message.success('登录成功～')
+           // _this.props.addUserInfo()
             Cookies.set('loginInfo',res.data)
             this.props.parentProps.history.push("/");
           }
@@ -71,7 +75,7 @@ class NormalLoginForm extends React.Component {
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
 
-export default class LoginComponent extends React.Component {
+class LoginComponent extends React.Component {
   constructor(props){
     super(props)
     this.state = {
@@ -108,6 +112,8 @@ export default class LoginComponent extends React.Component {
         message.error(res.msg)
       }else{
         message.success('登录成功～')
+        console.log(this.props)
+        //this.props.addUserInfo()
         //cookie.save('loginInfo',res.data,{path:'/'})
         this.props.history.push('/')
       }
@@ -223,3 +229,11 @@ export default class LoginComponent extends React.Component {
     )
   }
 }
+
+const mapStatetoProps = (state)=>{
+  return {userInfo:state.userInfo}
+}
+const actionCreators = {addUserInfo}
+export default connect(
+  mapStatetoProps,actionCreators
+)(LoginComponent)
