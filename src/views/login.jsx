@@ -10,9 +10,11 @@ import {addUserInfo} from '../redux/actions'
 class NormalLoginForm extends React.Component {
   constructor(props){
     super(props)
+    console.log(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleSubmit(e){
+    console.log(this.props)
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       const _this = this
@@ -27,27 +29,36 @@ class NormalLoginForm extends React.Component {
           }else{
             console.log(this.props)
             message.success('登录成功～')
-           // _this.props.addUserInfo()
+            _this.props.props.addUserInfo(res.data)
             Cookies.set('loginInfo',res.data)
-            this.props.parentProps.history.push("/");
+            this.props.props.history.push("/");
           }
         })
       }
     });
   }
-
+  componentDidMount() {
+    // To disabled submit button at the beginning.
+    console.log(this.props)
+    this.props.form.validateFields();
+  }
+  hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  }
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator,getFieldsError,getFieldError, isFieldTouched } = this.props.form;
+    const usernameError = isFieldTouched('userName') && getFieldError('userName');
+    const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
+        <Form.Item  validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
           )}
         </Form.Item>
-        <Form.Item>
+        <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
@@ -62,7 +73,7 @@ class NormalLoginForm extends React.Component {
             <Checkbox>记住密码</Checkbox>
           )}
           <NavLink className="login-form-forgot" to="/register">忘记密码</NavLink>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className="login-form-button" disabled={this.hasErrors(getFieldsError())}>
             立即登录
           </Button>
           <div className="toRegister">没有账号？ <NavLink to="/register">去注册</NavLink> Or <NavLink to="/">游客登录</NavLink></div>
@@ -118,18 +129,6 @@ class LoginComponent extends React.Component {
         this.props.history.push('/')
       }
     })
-    /*axios.post('http://localhost:3003/users/login',{
-      userName:this.state.username,
-      password:this.state.password
-    }).then(res=>{
-      console.log(res)
-      if(res.data.code !== '200'){
-        message.error(res.data.msg)
-      }else{
-        message.success('登录成功～')
-        this.props.history.push('/')
-      }
-    })*/
   }
   getData(e){
     const target = e.target
@@ -189,6 +188,7 @@ class LoginComponent extends React.Component {
 
   }
   render(){
+    console.log(this.props)
     /*const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -197,7 +197,7 @@ class LoginComponent extends React.Component {
     );*/
     return(
       <div>
-        <WrappedNormalLoginForm parentProps = {this.props} />
+        <WrappedNormalLoginForm props={this.props}/>
         {/*{<Upload
           name="avatar"
           listType="picture-card"
@@ -236,4 +236,4 @@ const mapStatetoProps = (state)=>{
 const actionCreators = {addUserInfo}
 export default connect(
   mapStatetoProps,actionCreators
-)(LoginComponent)
+)(LoginComponent,WrappedNormalLoginForm)

@@ -19,16 +19,17 @@ class BlogIndexComponent extends React.Component{
     this.goUser = this.goUser.bind(this)
   }
   componentDidMount(){
-    console.log(this.props)
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
+    console.log(this.props.userInfo.userInfo)
     //this.getBlogList1()
     //const action = getBlogList()
-    this.props.getBlogList()
-    console.log(this.props)
+    this.props.getBlogList().then(res=>{
+      console.log(res)
+    })
   }
   getBlogList1(){
     /*axios.get('http://localhost:3003/article/getArticle?u_id=1').then((res)=>{
@@ -52,10 +53,8 @@ class BlogIndexComponent extends React.Component{
     this.props.history.push('/user/'+params.u_id)
   }
   addIdF(){
-    console.log(this.props)
   }
   render(){
-    console.log(this.props)
     return(
       <div >
         {/*<div><button onClick={this.addIdF.bind(this)}>添加state</button></div>
@@ -93,7 +92,7 @@ class BlogIndexComponent extends React.Component{
   }
 }
 const mapStatetoProps = (state)=>{
-  return {blogList:state.blog.blogList}
+  return {blogList:state.blog.blogList,userInfo:state.userInfo}
 }
 const actionCreators = {getBlogList}
 export default connect(

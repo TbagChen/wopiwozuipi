@@ -14,7 +14,6 @@ const store = configureStore
 window.fetch = fetch
 window.$utils = utils
 
-console.log(store.getState())
 
 ReactDOM.render(<Provider store={store}><App /></Provider> , document.getElementById('root'));
 
