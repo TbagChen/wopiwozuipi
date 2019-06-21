@@ -4,15 +4,16 @@ import '../themes/index/header.scss'
 import Cookies from 'js-cookie'
 import { Menu, Dropdown, Avatar, Icon ,Row, Col, Modal} from 'antd';
 import LoginModal from '../components/loginModal'
+import {connect} from 'react-redux'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       loginInfo:'',
       modalVisible:false,
     }
-    this.logout = this.logout.bind(this)
+    console.log(this.props)
     this.handleCancel = this.handleCancel.bind(this)
     this.toMyBlog = this.toMyBlog.bind(this)
     this.toPersonalCenter = this.toPersonalCenter.bind(this)
@@ -40,7 +41,7 @@ export default class Header extends React.Component {
     })
   }
   toMyBlog(){
-    if(this.state.loginInfo){
+    if(this.props.userInfo.userInfo){
       this.props.props.history.push('/myBlog')
     }else{
       this.setState({
@@ -49,7 +50,7 @@ export default class Header extends React.Component {
     }
   }
   toPersonalCenter(){
-    if(this.state.loginInfo){
+    if(this.props.userInfo.userInfo){
       this.props.props.history.push('./PersonalCenter')
     }else{
       this.setState({
@@ -67,7 +68,7 @@ export default class Header extends React.Component {
           <span rel="noopener noreferrer">设置</span>
         </Menu.Item>
         <Menu.Item>
-          <span onClick={this.logout} rel="noopener noreferrer">退出</span>
+          <span onClick={this.logout.bind(this)} rel="noopener noreferrer">退出</span>
         </Menu.Item>
       </Menu>
     )
@@ -115,7 +116,7 @@ export default class Header extends React.Component {
               <div className="header-right">
                 <div>
                   {
-                    this.state.loginInfo === ''?(
+                    this.props.userInfo.userInfo === ''?(
                       <div>
                         <NavLink className="mr-20" to={'/login'}>登录</NavLink>
                         <NavLink to={'/register'}>注册</NavLink>
@@ -124,7 +125,7 @@ export default class Header extends React.Component {
                       <div>
                         <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
                         <Dropdown trigger={['click']} overlay={menu} placement="bottomCenter">
-                          {this.state.loginInfo.avater?(<span className="avater-a"><img src={this.state.loginInfo.avater} className="avater-img" alt="头像"/></span>):(<Avatar size="large" icon="user" />)}
+                          {this.props.userInfo.userInfo.avater?(<span className="avater-a"><img src={this.props.userInfo.userInfo.avater} className="avater-img" alt="头像"/></span>):(<Avatar size="large" icon="user" />)}
                         </Dropdown>
                       </div>
                     )
@@ -149,3 +150,11 @@ export default class Header extends React.Component {
     )
   }
 }
+
+const mapStatetoProps = (state) => {
+  return state
+}
+
+export default connect(
+  mapStatetoProps
+)(Header)

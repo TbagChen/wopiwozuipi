@@ -17,8 +17,11 @@ export default class MyBlog extends React.Component{
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
+      this.getBlogList()
+    }else{
+      this.props.history.push('/login')
     }
-    this.getBlogList()
+
   }
   getBlogList(){
     /*axios.get('http://localhost:3003/article/getArticle?u_id=1').then((res)=>{

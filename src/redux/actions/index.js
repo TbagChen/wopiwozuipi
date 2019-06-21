@@ -9,3 +9,8 @@ export const addBlogList = blogList => ({
   type: 'ADD_BLOG_LIST',
   blogList
 })
+
+export const addHost = host => ({
+  type: 'ADD_HOST',
+  host
+})

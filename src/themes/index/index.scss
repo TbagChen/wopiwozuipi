@@ -1,13 +1,14 @@
 .blog-ul{
   background: #fff;
   margin-top: 20px;
-  padding: 0px 20px 30px;
+  padding: 0px 40px 30px;
   float: left;
   width: 100%;
   .li-wrap{
-    padding: 20px 0px;
-    border-bottom: 1px solid #d9d9d9;
+    padding: 10px 0px 20px;
+    border-bottom: 1px solid #e9e9e9;
     .tc-content{
+      margin-top: 8px;
       cursor: pointer;
     }
     .li-top{
@@ -19,7 +20,6 @@
       }
       .comment-wrap{
         float: right;
-        margin-right: 10px;
       }
     }
     .li-title{
@@ -27,14 +27,80 @@
       font-weight: bold;
       line-height: 30px;
       color:#333;
+      letter-spacing:1px;
     }
     .li-content{
-      font-size: 14px;
-      color: #333;
+      font-size: 13px;
+      color: #7d7d7d;
       line-height: 24px;
+      width: 70%;
       overflow: hidden;
       text-overflow:ellipsis;
       white-space: nowrap;
+      letter-spacing:1px;
+    }
+  }
+}
+.pop-user-wrap{
+  overflow: hidden;
+  min-width: 200px;
+  .top{
+    width: 100%;
+    overflow: hidden;
+    .top-left{
+      float: left;
+      .img-avater{
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .top-right{
+      float: left;
+      margin-top: 5px;
+      margin-left: 10px;
+      color:#333;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  .bottom{
+    width: 100%;
+    overflow: hidden;
+    margin-top: 20px;
+    .left-ul{
+      float: left;
+      .left-li{
+        padding: 0 10px;
+        float:left;
+        text-align: center;
+        .num-text{
+          font-size: 16px;
+          color:#30445a;
+          font-weight: bold;
+        }
+        .text-span{
+          font-size: 12px;
+          color:#31455d;
+        }
+      }
+    }
+    .button-wrap{
+      float: right;
+      margin-right: 10px;
+      margin-top: 10px;
+      .btn-usual{
+        width: 72px;
+        font-size: 12px;
+      }
+      .noFollow{
+        color: #1890ff;
+        border: 1px solid #1890ff;
+      }
+      .hasFollowed{
+        background: #1890ff;
+        border: 1px solid #1890ff;
+        color: #fff;
+      }
     }
   }
 }
