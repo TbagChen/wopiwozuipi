@@ -25,7 +25,6 @@ class BlogDetail extends React.Component{
       replyContent1:'',
       replyList:[],
     }
-    console.log(props)
     this.follow = this.follow.bind(this)
     this.collection = this.collection.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
@@ -37,7 +36,6 @@ class BlogDetail extends React.Component{
     this.replyComment = this.replyComment.bind(this)
   }
   componentWillMount(){
-    console.log(this.props)
     let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();
     if (host1.match('xuweijin.com')) {
@@ -79,10 +77,8 @@ class BlogDetail extends React.Component{
     })
   }
   test(){
-    console.log('12341')
   }
   handleCancel(){
-    console.log('124141245')
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
@@ -169,8 +165,6 @@ class BlogDetail extends React.Component{
     })
   }
   replyArticle(params,params2){
-    console.log(params)
-    console.log(params2)
     if(!Cookies.get('loginInfo')){
       this.setState({
         modalVisible:true
@@ -189,7 +183,6 @@ class BlogDetail extends React.Component{
       res_u_id = this.state.articleDetail.u_id
     }
     if(params2){
-      console.log(params2.id)
       parent_id = params2.id
     }
     if(content === ''){
@@ -203,7 +196,6 @@ class BlogDetail extends React.Component{
         article_id:this.state.articleDetail.id,
         token:JSON.parse(Cookies.get('loginInfo')).token
       }).then(res=>{
-        console.log(res)
         if(res.code==='200'){
           message.success('回复成功～')
           this.setState({
@@ -240,7 +232,6 @@ class BlogDetail extends React.Component{
         })
       },
       onCancel() {
-        console.log('Cancel');
       },
     });
   }

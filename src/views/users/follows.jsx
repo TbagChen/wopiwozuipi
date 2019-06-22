@@ -33,7 +33,6 @@ export default class Follows extends React.Component{
         this.setState({
           userList:res.data
         })
-        console.log(this.state.userList)
       }else{
         message.info(res.msg)
       }

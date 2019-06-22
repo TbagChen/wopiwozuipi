@@ -13,7 +13,6 @@ class Header extends React.Component {
       loginInfo:'',
       modalVisible:false,
     }
-    console.log(this.props)
     this.handleCancel = this.handleCancel.bind(this)
     this.toMyBlog = this.toMyBlog.bind(this)
     this.toPersonalCenter = this.toPersonalCenter.bind(this)
@@ -26,7 +25,6 @@ class Header extends React.Component {
     }
   }
   logout(){
-    console.log('tuichu')
     Cookies.remove('loginInfo')
     this.props.props.history.push('/login')
   }

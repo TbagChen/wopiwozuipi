@@ -14,9 +14,7 @@ class AppComponent extends React.Component{
   componentWillMount(){
     if(Cookies.get('loginInfo')){
       this.props.addUserInfo(JSON.parse(Cookies.get('loginInfo')))
-    }
-    console.log(this.props)
-    let host1 = window.location.href;
+    }let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();
     if (host1.match('xuweijin.com')) {
       this.props.addHost('https://www.xuweijin.com/blogApi')
@@ -25,9 +23,6 @@ class AppComponent extends React.Component{
     }
   }
   componentDidMount(){
-    setTimeout(()=>{
-      console.log(this.props)
-    },1000)
 
   }
   render(){

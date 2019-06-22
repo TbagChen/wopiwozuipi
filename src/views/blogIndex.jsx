@@ -25,7 +25,6 @@ class BlogIndexComponent extends React.Component{
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
-    console.log(this.props.userInfo.userInfo)
     //this.getBlogList1()
     //const action = getBlogList()
     this.props.getBlogList().then(res=>{
@@ -97,10 +96,7 @@ class BlogIndexComponent extends React.Component{
       })
     }
   }
-  addIdF(){
-  }
   render(){
-    console.log(this.props)
     const content = (
       <div>
         {

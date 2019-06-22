@@ -43,7 +43,6 @@ export default class User extends React.Component{
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
-    console.log(this.props)
     let key = this.props.match.params.u_id
     this.getUserBasicInfo(key)
   }
