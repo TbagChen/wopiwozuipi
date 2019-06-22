@@ -10,7 +10,6 @@ class FormLogin extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleSubmit(e){
-    console.log(this.props)
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       const _this = this
@@ -73,11 +72,9 @@ const FormLoginComponent = Form.create({ name: 'normal_login' })(FormLogin);
 
 export default class LoginModal extends React.Component{
   componentWillMount(){
-    console.log(this.props)
     //this.props.handleCancel()
   }
   render(){
-    console.log(this.props)
     return(
       <FormLoginComponent {...this.props}></FormLoginComponent>
     )
