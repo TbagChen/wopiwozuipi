@@ -49,24 +49,29 @@ class Header extends React.Component {
   }
   toPersonalCenter(){
     if(this.props.userInfo.userInfo){
-      this.props.props.history.push('./PersonalCenter')
+      this.props.props.history.push('/PersonalCenter')
     }else{
       this.setState({
         modalVisible:true,
       })
     }
   }
+  clickMenuItem(params){
+    console.log(params)
+    console.log(this.props)
+    this.props.props.history.push('/user/'+this.props.userInfo.userInfo.u_id)
+  }
   render(){
     const menu = (
       <Menu>
-        <Menu.Item>
+        <Menu.Item onClick={this.clickMenuItem.bind(this)}>
           <span rel="noopener noreferrer">我的主页</span>
         </Menu.Item>
         <Menu.Item>
           <span rel="noopener noreferrer">设置</span>
         </Menu.Item>
-        <Menu.Item>
-          <span onClick={this.logout.bind(this)} rel="noopener noreferrer">退出</span>
+        <Menu.Item onClick={this.logout.bind(this)}>
+          <span rel="noopener noreferrer">退出</span>
         </Menu.Item>
       </Menu>
     )
