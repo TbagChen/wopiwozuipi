@@ -111,6 +111,13 @@ export default class User extends React.Component{
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
   }
+  goFollow(params){
+    if(params === 1) {
+      this.props.history.push('/user/' + this.state.userInfo.u_id + '/follows')
+    }else{
+      this.props.history.push('/user/' + this.state.userInfo.u_id + '/followees')
+    }
+  }
   render(){
     return(
       <div className="userComponent-wrap">
@@ -124,9 +131,9 @@ export default class User extends React.Component{
               <div className="uc-left">
                 <img className="img-avater" src={this.state.userInfo.avater?(this.state.userInfo.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                 <div className="left-text"><p><span className="name-span">{this.state.userInfo.real_name?(this.state.userInfo.real_name):(this.state.userInfo.user_name)}</span></p>
-                  <ul className="left-ul"><li className="left-li">
+                  <ul className="left-ul"><li className="left-li" onClick={this.goFollow.bind(this,1)}>
                     <span className="num-text">{this.state.userInfo.following}</span><br/><span className="text-span">关注</span>
-                  </li><li  className="left-li">
+                  </li><li  className="left-li" onClick={this.goFollow.bind(this,2)}>
                     <span className="num-text">{this.state.userInfo.follower}</span><br/><span className="text-span">关注者</span>
                   </li>
                   </ul>
