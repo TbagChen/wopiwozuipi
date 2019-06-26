@@ -11,7 +11,6 @@ const utils = {
         mimeType: null // 用来限制上传文件类型，为 null 时表示不对文件类型限制；eg: ["image/png", "image/jpeg"]
       };
       const key = new Date().getTime()+file.name
-      console.log(file)
       const config = {
         useCdnDomain: true, // 开启 cdn 加速域名
         region: qiniu.region.z0, // 为 null 会自动解析上传区域
@@ -19,15 +18,12 @@ const utils = {
       // 调用 qiniu.upload 上传图片，生成 observable 实例
       const observable = qiniu.upload(file, key, token, putExtra, config);
       // 调用 observable 的 subscribe 方法，获取响应结果
-      console.log(observable)
       observable.subscribe({
         complete(data) {
-          console.log(data)
           // 把返回的 key 与 域名拼接，就是图片地址
           resolve(data.key)
         },
         next(res) {
-          console.log(res)
           return res.data
         },
         error(err) {

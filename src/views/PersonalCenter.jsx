@@ -63,7 +63,6 @@ export default class SiderDemo extends React.Component {
       this.setState({
         [name]:value
       })
-      console.log(e.target.files[0])
     }
     getFileData(e){
       this.setState({
@@ -79,7 +78,6 @@ export default class SiderDemo extends React.Component {
     uploadClick(){
       fetch.get('getQiniuToken',{token: JSON.parse(Cookies.get('loginInfo')).token}).then(res=>{
         utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
-          console.log(res)
           this.setState({
             imageUrl:'http://img.xuweijin.com/'+res
           })

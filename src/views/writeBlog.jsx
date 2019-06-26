@@ -53,7 +53,6 @@ class WriteBlog extends React.Component{
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.form.validateFields((error, values) => {
-      console.log(values)
       if (!error) {
         const submitData = {
           token:JSON.parse(Cookies.get('loginInfo')).token,
@@ -65,7 +64,6 @@ class WriteBlog extends React.Component{
         }
         //console.log(values.tag)
         fetch.post('publish',submitData).then(res=>{
-          console.log(res)
           if(res.code === '200'){
             dropByCacheKey('BlogIndexComponent')
             this.props.history.push('/')
@@ -78,7 +76,6 @@ class WriteBlog extends React.Component{
 
   }
   getTagList(params){
-    console.log(this)
     fetch.get('getTagList',{
       u_id:JSON.parse(Cookies.get('loginInfo')).u_id,
       token:JSON.parse(Cookies.get('loginInfo')).token
@@ -97,7 +94,6 @@ class WriteBlog extends React.Component{
     })
   }
   handleOk(){
-    console.log(this)
     const _this = this
     if(this.state.tagName === ''){
       message.warn('标签名不能为空')
@@ -140,12 +136,10 @@ class WriteBlog extends React.Component{
       token:JSON.parse(Cookies.get('loginInfo')).token
     }).then(res=>{
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
-        console.log(res)
         this.setState({
           imageUrl:'http://img.xuweijin.com/'+res
         })
         this.props.form.validateFields((error, values) => {
-          console.log('1241241')
           this.props.form.setFieldsValue({
             content: ContentUtils.insertMedias(values.content, [{
               type: 'IMAGE',

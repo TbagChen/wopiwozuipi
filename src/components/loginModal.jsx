@@ -18,7 +18,6 @@ class FormLogin extends React.Component{
           userName:values.userName,
           password:values.password
         }).then(res=>{
-          console.log(_this.props)
           if(res.code !== '200'){
             message.error(res.msg)
           }else{

@@ -57,8 +57,6 @@ class Header extends React.Component {
     }
   }
   clickMenuItem(params){
-    console.log(params)
-    console.log(this.props)
     this.props.props.history.push('/user/'+this.props.userInfo.userInfo.u_id)
   }
   render(){

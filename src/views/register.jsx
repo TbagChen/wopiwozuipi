@@ -90,7 +90,6 @@ export default class RegisterComponent extends React.Component {
     })
   }
   register(){
-    console.log(this.state)
     fetch.post('register',{
       userName:this.state.username,
       password:this.state.password

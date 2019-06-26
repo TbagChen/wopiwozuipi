@@ -53,7 +53,6 @@ export default class UploadFile extends PureComponent{
 
     const data = this.state.data;
     if (!data) {
-      console.log('未选择文件');
       return;
     }
 
@@ -63,7 +62,6 @@ export default class UploadFile extends PureComponent{
 
     //此处的file字段由上传的api决定，可以是其它值
     form.append('file', data);
-    console.log(data)
     axios({
       url:url,
       method: 'post',
@@ -73,7 +71,6 @@ export default class UploadFile extends PureComponent{
       }
 
     }).then(respanse=>{
-        console.log(respanse.data);
       })
   }
 

@@ -10,11 +10,9 @@ import {addUserInfo} from '../redux/actions'
 class NormalLoginForm extends React.Component {
   constructor(props){
     super(props)
-    console.log(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleSubmit(e){
-    console.log(this.props)
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       const _this = this
@@ -23,11 +21,9 @@ class NormalLoginForm extends React.Component {
             userName:values.userName,
             password:values.password
         }).then(res=>{
-          console.log(_this.props)
           if(res.code !== '200'){
             message.error(res.msg)
           }else{
-            console.log(this.props)
             message.success('登录成功～')
             _this.props.props.addUserInfo(res.data)
             Cookies.set('loginInfo',res.data)
@@ -39,7 +35,6 @@ class NormalLoginForm extends React.Component {
   }
   componentDidMount() {
     // To disabled submit button at the beginning.
-    console.log(this.props)
     this.props.form.validateFields();
   }
   hasErrors(fieldsError) {
@@ -123,7 +118,6 @@ class LoginComponent extends React.Component {
         message.error(res.msg)
       }else{
         message.success('登录成功～')
-        console.log(this.props)
         //this.props.addUserInfo()
         //cookie.save('loginInfo',res.data,{path:'/'})
         this.props.history.push('/')
@@ -137,7 +131,6 @@ class LoginComponent extends React.Component {
     this.setState({
       [name]:value
     })
-    console.log(e.target.files[0])
   }
   getFileData(e){
     this.setState({
@@ -151,9 +144,7 @@ class LoginComponent extends React.Component {
   }
   upload(){
     fetch.get('getQiniuToken',{token:this.state.loginInfo.token}).then(res=>{
-      console.log(this.state.fileobj)
       utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
-        console.log(res)
         this.setState({
           imageUrl:'http://img.xuweijin.com/'+res
         })
@@ -162,20 +153,17 @@ class LoginComponent extends React.Component {
           token:this.state.loginInfo.token,
           avater:'http://img.xuweijin.com/'+res
         }).then(res=>{
-          console.log(res)
         })
       })
     })
   }
   openMessage(){
     message.success('成功～')
-    console.log(this.props)
   }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
       }
     });
   }
@@ -188,7 +176,6 @@ class LoginComponent extends React.Component {
 
   }
   render(){
-    console.log(this.props)
     /*const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />

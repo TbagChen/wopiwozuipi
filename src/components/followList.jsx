@@ -35,7 +35,6 @@ export default class FollowList extends React.Component{
     }
   }
   componentWillReceiveProps(nextProps){
-    console.log(nextProps)
     this.setState({
       userList:nextProps.userList
     })
@@ -82,7 +81,6 @@ export default class FollowList extends React.Component{
     }
   }
   goUser(params){
-    console.log(this.props)
     this.props.history.push('/user/'+params.followerInfo.u_id)
   }
   render(){

@@ -77,7 +77,6 @@ class CreateFetch  extends React.Component{
         let res = await fetch(this.host + url, this.lists);
       if(res.status === 401){
         message.error('token失效，请重新登录～')
-        console.log(this.props)
         this.props.history.push("/some/Path");
       }else{
         return await res.json()

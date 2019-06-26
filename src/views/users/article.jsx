@@ -56,7 +56,6 @@ export default class Articles extends React.Component{
       okType: 'danger',
       cancelText: '取消',
       onOk() {
-        console.log('OK');
         fetch.post("deleteArticle",{
           id:params.id,
           token:that.state.loginInfo.token
@@ -70,7 +69,6 @@ export default class Articles extends React.Component{
         })
       },
       onCancel() {
-        console.log('Cancel');
       },
     });
     /*fetch.post("deleteArticle",{
@@ -94,10 +92,8 @@ export default class Articles extends React.Component{
       cancelText: '取消',
       onOk() {
         callback()
-        console.log('OK');
       },
       onCancel() {
-        console.log('Cancel');
       },
     });
   }
