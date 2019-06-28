@@ -274,6 +274,9 @@ class BlogDetail extends React.Component{
       replyList:this.state.replyList
     })
   }
+  goUser(params){  // 去用户个人信息页面
+    this.props.history.push('/user/'+params.u_id)
+  }
   render(){
     return(
       <div className="blogDetail-wrap">
@@ -285,7 +288,7 @@ class BlogDetail extends React.Component{
               <div className="author-left">
                 <img className="img-avater" src={this.state.articleDetail.avater?(this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                 <p className="text-wrap">
-                  <span className="name-span">{this.state.articleDetail.real_name?this.state.articleDetail.real_name:this.state.articleDetail.user_name}</span><br/>
+                  <span className="name-span" onClick={this.goUser.bind(this,this.state.articleDetail)}>{this.state.articleDetail.real_name?this.state.articleDetail.real_name:this.state.articleDetail.user_name}</span><br/>
                   <span className="time-span">{window.$utils.formatDate(this.state.articleDetail.create_time,'TYMD')}</span>
                 </p>
               </div>
@@ -325,7 +328,7 @@ class BlogDetail extends React.Component{
                         <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                       </div>
                       <div className="li-right">
-                        <div className="l-r-top">{item.real_name?item.real_name:item.user_name}</div>
+                        <div className="l-r-top"><span className="name-wrap" onClick={this.goUser.bind(this,item)}>{item.real_name?item.real_name:item.user_name}</span></div>
                         <div className="content">{item.content}</div>
                         <div className="l-r-bottom">
                           {window.$utils.goodTime(item.create_time/1000)}
@@ -355,7 +358,7 @@ class BlogDetail extends React.Component{
                                     <img className="img-avater" src={option.avater?(option.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                                   </div>
                                   <div className="li-right">
-                                    <div className="l-r-top">{option.real_name?option.real_name:option.user_name}</div>
+                                    <div className="l-r-top"><span  className="name-wrap" onClick={this.goUser.bind(this,option)}>{option.real_name?option.real_name:option.user_name}</span></div>
                                     <div className="l-r-top">回复 <span className="reply-name">{option.res_real_name}</span>：{option.content}</div>
                                     {/*<div className="content">{option.content}</div>*/}
                                     <div className="l-r-bottom">

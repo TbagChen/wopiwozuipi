@@ -40,6 +40,9 @@ export default class Collections extends React.Component{
   goDetail(params){
     this.props.history.push('/blogDetail/'+params.id)
   }
+  goUser(params){  // 去用户个人信息页面
+    this.props.history.push('/user/'+params.u_id)
+  }
   render(){
     return(
       <div className="collections-wrap">
@@ -58,7 +61,7 @@ export default class Collections extends React.Component{
                             <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
                           </div>
                           <div className="l-t-m">
-                            <span>{item.real_name?(item.real_name):(item.user_name)}</span>・
+                            <span className="name-span" onClick={this.goUser.bind(this,item)}>{item.real_name?(item.real_name):(item.user_name)}</span>・
                             <span>{item.tag_name}</span>・
                             <span>{window.$utils.goodTime(item.create_time / 1000)}</span>
                           </div>
