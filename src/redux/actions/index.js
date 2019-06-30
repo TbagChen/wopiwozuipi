@@ -14,3 +14,8 @@ export const addHost = host => ({
   type: 'ADD_HOST',
   host
 })
+
+export const addBlogerInfo = data => ({
+  type:'ADD_BLOGERINFO',
+  data
+})
