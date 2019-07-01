@@ -153,7 +153,7 @@ class User extends React.Component{
                     <div className="button-wrap">
                       {
                         this.props.state.userInfo.blogerInfo.hasFollowed === 0?(
-                          <Button className={'noFollow noFollow'} onClick={this.follow}>关注</Button>
+                          <Button className={'btn-usual noFollow'} onClick={this.follow}>关注</Button>
                         ):(
                           <Button className={'btn-usual hasFollowed'} onClick={this.follow}>已关注</Button>
                         )

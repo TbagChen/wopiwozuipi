@@ -10,6 +10,10 @@ const userInfo = (state ={userInfo:'',blogerInfo:''} ,action) =>{
       return Object.assign({},state,{
         blogerInfo:action.data
       })
+    case 'ADD_FOLLOW':
+      return Object.assign({},state,{
+        
+      })
     default:
       return state
   }
