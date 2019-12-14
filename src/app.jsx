@@ -19,6 +19,8 @@ class AppComponent extends React.Component{
     if (host1.match('xuweijin.com')) {
       this.props.addHost('https://www.xuweijin.com/blogApi')
     } else {
+      //this.props.addHost('https://www.xuweijin.com/blogApi')
+
       this.props.addHost('http://localhost:3003')
     }
   }

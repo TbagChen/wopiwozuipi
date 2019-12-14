@@ -3,10 +3,17 @@ import '../themes/article/blogDetail.scss'
 import {Spin,Button,message,Modal,Icon,Input} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
+import CodeBlock from '../components/CodeBlock'
+import MarkdownNavbar from "../components/MarkdownNavbar";
+import { Anchor } from 'antd';
+import MarkNav from 'markdown-navbar';
+import 'markdown-navbar/dist/navbar.css';
 import 'braft-editor/dist/index.css'
+import ReactMarkdown from 'react-markdown'
 import {connect} from 'react-redux';
 const { TextArea } = Input;
 const confirm = Modal.confirm;
+
 
 
 
@@ -24,6 +31,7 @@ class BlogDetail extends React.Component{
       replyContent:'',
       replyContent1:'',
       replyList:[],
+      everydayWord:''
     }
     this.follow = this.follow.bind(this)
     this.collection = this.collection.bind(this)
@@ -54,6 +62,7 @@ class BlogDetail extends React.Component{
     }
     this.getArticleDetail()
     this.getCommentList()
+    //this.getEveryDay()
   }
   changeText(e){
     this.setState({
@@ -73,6 +82,14 @@ class BlogDetail extends React.Component{
       this.setState({
         articleDetail:res.data,
         hasFollowed:res.data.hasFollowed
+      })
+    })
+  }
+  getEveryDay(){
+    fetch.get('getOneWordEvery',{}).then(res=>{
+      console.log(res)
+      this.setState({
+        everydayWord:res
       })
     })
   }
@@ -280,120 +297,150 @@ class BlogDetail extends React.Component{
   render(){
     return(
       <div className="blogDetail-wrap">
-        {this.state.articleDetail===''?(
-          <div className="load-wrap"><Spin size="large" /></div>
-        ):(
-          <div>
-            <div className="author-wrap">
-              <div className="author-left">
-                <img className="img-avater" src={this.state.articleDetail.avater?(this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
-                <p className="text-wrap">
-                  <span className="name-span" onClick={this.goUser.bind(this,this.state.articleDetail)}>{this.state.articleDetail.real_name?this.state.articleDetail.real_name:this.state.articleDetail.user_name}</span><br/>
-                  <span className="time-span">{window.$utils.formatDate(this.state.articleDetail.create_time,'TYMD')}</span>
-                </p>
-              </div>
-              <div className="author-right">
-                <div className="collect-wrap" onClick={this.collection}>
-                  {this.state.articleDetail.hasCollect===0?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
+        <div className="blogDetail-wrap-left">
+          {this.state.articleDetail===''?(
+            <div className="load-wrap"><Spin size="large" /></div>
+          ):(
+            <div>
+              <div className="author-wrap">
+                <div className="author-left">
+                  <img className="img-avater" src={this.state.articleDetail.avater?(this.state.articleDetail.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                  <p className="text-wrap">
+                    <span className="name-span" onClick={this.goUser.bind(this,this.state.articleDetail)}>{this.state.articleDetail.real_name?this.state.articleDetail.real_name:this.state.articleDetail.user_name}</span><br/>
+                    <span className="time-span">{window.$utils.formatDate(this.state.articleDetail.create_time,'TYMD')}</span>
+                  </p>
                 </div>
-                {
-                  this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
-                    <div className="follow-wrap">
-                      {
-                        this.state.hasFollowed === 0?(
-                          <Button onClick={this.follow}>关注</Button>
-                        ):(
-                          <Button onClick={this.follow}>已关注</Button>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
-            <div className="content-wrap">
-              <div className="title">{this.state.articleDetail.article_title}</div>
-              <div className="article-content" dangerouslySetInnerHTML = {{ __html:this.state.articleDetail.article_content }}></div>
-            </div>
-            <div className="reply-wrap">
-              <div className="textarea-wrap">
-                <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'想对作者说些什么？'}/>
-                <div className="button-wrap"><Button onClick={this.replyArticle.bind(this,'','')} size={'small'} type="primary">回复</Button></div>
-              </div>
-              <div className="reply-ul">
-                {this.state.replyList.map((item,index)=>{
-                  return(
-                    <li className="reply-li" key={index}>
-                      <div className="li-left">
-                        <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
-                      </div>
-                      <div className="li-right">
-                        <div className="l-r-top"><span className="name-wrap" onClick={this.goUser.bind(this,item)}>{item.real_name?item.real_name:item.user_name}</span></div>
-                        <div className="content">{item.content}</div>
-                        <div className="l-r-bottom">
-                          {window.$utils.goodTime(item.create_time/1000)}
-                          <div className="l-r-b-right">
-                            {!Cookies.get('loginInfo')||JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
-                              <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
-                            )}
-                            <span className="reply-btn" onClick={this.replyComment.bind(this,item)}>回复</span>
-                          </div>
-                        </div>
-                        {item.showReply &&
-                        <div className="reply-r-wrap">
-                          <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+item.real_name}/>
-                          <div className="button-wrap">
-                            <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
-                            <Button onClick={this.replyArticle.bind(this,item,'')} size={'small'} type="primary">回复</Button>
-                          </div>
-                        </div>
-                        }
+                <div className="author-right">
+                  <div className="collect-wrap" onClick={this.collection}>
+                    {this.state.articleDetail.hasCollect===0?(<Icon type="star"  style={{ color: '#ddd',fontSize:'20px' }}/>):(<Icon type="star" theme="filled"  style={{ color: '#1890ff' ,fontSize:'20px' }}/>)}
+                  </div>
+                  {
+                    this.state.articleDetail.u_id===this.state.loginInfo.u_id?(''):(
+                      <div className="follow-wrap">
                         {
-                          item.child.length>0 &&
-                          <ul className="reply-r-ul">
-                            {item.child.map((option,index)=>{
-                              return(
-                                <li className="reply-li reply-r-ul-li" key={index}>
-                                  <div className="li-left">
-                                    <img className="img-avater" src={option.avater?(option.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
-                                  </div>
-                                  <div className="li-right">
-                                    <div className="l-r-top"><span  className="name-wrap" onClick={this.goUser.bind(this,option)}>{option.real_name?option.real_name:option.user_name}</span></div>
-                                    <div className="l-r-top">回复 <span className="reply-name">{option.res_real_name}</span>：{option.content}</div>
-                                    {/*<div className="content">{option.content}</div>*/}
-                                    <div className="l-r-bottom">
-                                      {window.$utils.goodTime(option.create_time/1000)}
-                                      <div className="l-r-b-right">
-                                        {!(Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id === option.u_id)?"":(
-                                          <div className="delete-wrap" onClick={this.deleteComment.bind(this,option)}>删除</div>
-                                        )}
-                                        <span className="reply-btn" onClick={this.replyComment.bind(this,option)}>回复</span>
-                                      </div>
-                                    </div>
-                                    {option.showReply &&
-                                    <div className="reply-r-wrap reply-r-wrap-s">
-                                      <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+option.real_name}/>
-                                      <div className="button-wrap">
-                                        <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
-                                        <Button onClick={this.replyArticle.bind(this,option,item)} size={'small'} type="primary">回复</Button>
-                                      </div>
-                                    </div>
-                                    }
-                                  </div>
-
-                                </li>
-                              )
-                            })}
-                          </ul>
+                          this.state.hasFollowed === 0?(
+                            <Button onClick={this.follow}>关注</Button>
+                          ):(
+                            <Button onClick={this.follow}>已关注</Button>
+                          )
                         }
                       </div>
-                    </li>
-                  )
-                })}
+                    )
+                  }
+                </div>
+              </div>
+              <div className="content-wrap">
+                <div className="title">{this.state.articleDetail.article_title}</div>
+                <div className="article-content dcss">
+                  <ReactMarkdown source={this.state.articleDetail.article_content}
+                                 renderers={{
+                                   code: CodeBlock
+                                 }}
+                                 escapeHtml={false}></ReactMarkdown>
+                </div>
+              </div>
+              <div className="reply-wrap">
+                <div className="textarea-wrap">
+                  <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent} onChange={this.changeText} placeholder={'想对作者说些什么？'}/>
+                  <div className="button-wrap"><Button onClick={this.replyArticle.bind(this,'','')} size={'small'} type="primary">回复</Button></div>
+                </div>
+                <div className="reply-ul">
+                  {this.state.replyList.map((item,index)=>{
+                    return(
+                      <li className="reply-li" key={index}>
+                        <div className="li-left">
+                          <img className="img-avater" src={item.avater?(item.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                        </div>
+                        <div className="li-right">
+                          <div className="l-r-top"><span className="name-wrap" onClick={this.goUser.bind(this,item)}>{item.real_name?item.real_name:item.user_name}</span></div>
+                          <div className="content">{item.content}</div>
+                          <div className="l-r-bottom">
+                            {window.$utils.goodTime(item.create_time/1000)}
+                            <div className="l-r-b-right">
+                              {!Cookies.get('loginInfo')||JSON.parse(Cookies.get('loginInfo')).u_id !== item.u_id?"":(
+                                <div className="delete-wrap" onClick={this.deleteComment.bind(this,item)}>删除</div>
+                              )}
+                              <span className="reply-btn" onClick={this.replyComment.bind(this,item)}>回复</span>
+                            </div>
+                          </div>
+                          {item.showReply &&
+                          <div className="reply-r-wrap">
+                            <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+item.real_name}/>
+                            <div className="button-wrap">
+                              <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
+                              <Button onClick={this.replyArticle.bind(this,item,'')} size={'small'} type="primary">回复</Button>
+                            </div>
+                          </div>
+                          }
+                          {
+                            item.child.length>0 &&
+                            <ul className="reply-r-ul">
+                              {item.child.map((option,index)=>{
+                                return(
+                                  <li className="reply-li reply-r-ul-li" key={index}>
+                                    <div className="li-left">
+                                      <img className="img-avater" src={option.avater?(option.avater):(this.state.host+'/upload/avater_boy.png')} alt=""/>
+                                    </div>
+                                    <div className="li-right">
+                                      <div className="l-r-top"><span  className="name-wrap" onClick={this.goUser.bind(this,option)}>{option.real_name?option.real_name:option.user_name}</span></div>
+                                      <div className="l-r-top">回复 <span className="reply-name">{option.res_real_name}</span>：{option.content}</div>
+                                      {/*<div className="content">{option.content}</div>*/}
+                                      <div className="l-r-bottom">
+                                        {window.$utils.goodTime(option.create_time/1000)}
+                                        <div className="l-r-b-right">
+                                          {!(Cookies.get('loginInfo')&&JSON.parse(Cookies.get('loginInfo')).u_id === option.u_id)?"":(
+                                            <div className="delete-wrap" onClick={this.deleteComment.bind(this,option)}>删除</div>
+                                          )}
+                                          <span className="reply-btn" onClick={this.replyComment.bind(this,option)}>回复</span>
+                                        </div>
+                                      </div>
+                                      {option.showReply &&
+                                      <div className="reply-r-wrap reply-r-wrap-s">
+                                        <TextArea autosize={{ minRows: 1, maxRows: 6 }} value={this.state.replyContent1} onChange={this.changeText1} placeholder={'回复'+option.real_name}/>
+                                        <div className="button-wrap">
+                                          <Button onClick={this.cancelReplyArticle} className={'cancel-btn'} size={'small'}>取消</Button>
+                                          <Button onClick={this.replyArticle.bind(this,option,item)} size={'small'} type="primary">回复</Button>
+                                        </div>
+                                      </div>
+                                      }
+                                    </div>
+
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          }
+                        </div>
+                      </li>
+                    )
+                  })}
+                </div>
               </div>
             </div>
+          )}
+        </div>
+        <div className="blogDetail-wrap-right">
+          {/*<div className="blogDetail-author-wrap">
+            <div className="everyDay-title">每日一句</div>
+            <p>{this.state.everydayWord.ciba}</p>
+            <p>{this.state.everydayWord.cibaEn}</p>
+          </div>*/}
+          <div>
+            {this.state.articleDetail === '' ? (
+              <div className="load-wrap"><Spin size="large"/></div>
+            ) : (
+              <Anchor>
+                <div className="markNav-title">文章目录</div>
+                <MarkNav
+                  className="article-menu"
+                  source={this.state.articleDetail.article_content}
+                  headingTopOffset={80}
+                />
+              </Anchor>
+            )}
           </div>
-        )}
+        </div>
+
         <Modal
           title="请先登录"
           visible={this.state.modalVisible}

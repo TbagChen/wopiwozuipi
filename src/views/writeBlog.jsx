@@ -4,6 +4,8 @@ import 'braft-editor/dist/index.css'
 import 'braft-extensions/dist/code-highlighter.css'
 import '../themes/article/writeBlog.scss'
 import BraftEditor from 'braft-editor'
+import ReactMarkdown from 'react-markdown'
+import Editor from 'for-editor'
 //import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import { ContentUtils } from 'braft-utils'
 import { dropByCacheKey } from 'react-router-cache-route'
@@ -23,7 +25,8 @@ class WriteBlog extends React.Component{
       visible:false,
       tagName:'',
       loginInfo:'',
-      editorState:''
+      editorState:'',
+      editorValue:''
     }
     this.showModal = this.showModal.bind(this)
     this.handleOk = this.handleOk.bind(this)
@@ -40,9 +43,9 @@ class WriteBlog extends React.Component{
     }
     this.getTagList()
     // 异步设置编辑器内容
-    this.props.form.setFieldsValue({
+    /*this.props.form.setFieldsValue({
       content: BraftEditor.createEditorState('')
-    })
+    })*/
     /*setTimeout(() => {
       this.props.form.setFieldsValue({
         content: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>')
@@ -52,6 +55,10 @@ class WriteBlog extends React.Component{
 
   handleSubmit = (event) => {
     event.preventDefault()
+    if(this.state.editorValue == ''){
+      message.warn('正文内容不能为空！')
+      return;
+    }
     this.props.form.validateFields((error, values) => {
       if (!error) {
         const submitData = {
@@ -59,8 +66,8 @@ class WriteBlog extends React.Component{
           u_id:this.state.loginInfo.u_id,
           article_title: values.title,
           article_tag_id:values.tag,
-          article_text: values.content.toText(), // or values.content.toHTML()
-          article_content: values.content.toHTML() // or values.content.toHTML()
+          article_text: this.state.editorValue, // or values.content.toHTML()
+          article_content: this.state.editorValue // or values.content.toHTML()
         }
         //console.log(values.tag)
         fetch.post('publish',submitData).then(res=>{
@@ -131,22 +138,28 @@ class WriteBlog extends React.Component{
       tagName:e.target.value
     })
   }
-  uploadHandler(){
+  uploadHandler(params){
     fetch.get('getQiniuToken',{
       token:JSON.parse(Cookies.get('loginInfo')).token
     }).then(res=>{
-      utils.uploadFile(this.state.fileobj,res.data.qiniuToken).then(res=>{
+      console.log(res)
+      utils.uploadFile(params,res.data.qiniuToken).then(res=>{
+        console.log(res)
         this.setState({
           imageUrl:'http://img.xuweijin.com/'+res
         })
-        this.props.form.validateFields((error, values) => {
+        let str = this.state.editorValue + '![alt](http://img.xuweijin.com/'+res+')'
+        this.setState({
+          editorValue:str
+        })
+        /*this.props.form.validateFields((error, values) => {
           this.props.form.setFieldsValue({
             content: ContentUtils.insertMedias(values.content, [{
               type: 'IMAGE',
               url: 'http://img.xuweijin.com/'+res
             }])
           })
-        })
+        })*/
 
       })
     })
@@ -156,28 +169,15 @@ class WriteBlog extends React.Component{
       fileobj:file
     })
   }
+  handleChange(value){
+    console.log(value)
+    this.setState({
+      editorValue:value
+    })
+  }
   render(){
     const { getFieldDecorator } = this.props.form
-    const excludeControls = ['media','emoji']
-    const extendControls = [
-      {
-        key: 'antd-uploader',
-        type: 'component',
-        component: (
-          <Upload
-            accept="image/*"
-            showUploadList={false}
-            beforeUpload={this.beforeUpload}
-            customRequest={this.uploadHandler}
-          >
-            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
-            <button type="button" className="control-item button upload-button" data-title="插入图片">
-              <Icon type="picture" theme="filled" />
-            </button>
-          </Upload>
-        )
-      }
-    ]
+
     //const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator', 'media' ]
     return(
       <div className="writeBlog-wrap">
@@ -209,29 +209,15 @@ class WriteBlog extends React.Component{
             )}
             <Button onClick={this.showModal}>新增标签</Button>
           </Form.Item>
-          <Form.Item label="文章正文">
-            {getFieldDecorator('content', {
-              validateTrigger: 'onBlur',
-              rules: [{
-                required: true,
-                validator: (_, value, callback) => {
-                  if (value.isEmpty()) {
-                    callback('请输入正文内容')
-                  } else {
-                    callback()
-                  }
-                }
-              }],
-            })(
-              <BraftEditor
-                className="my-editor"
-                excludeControls={excludeControls}
-                extendControls={extendControls}
-                placeholder="请输入正文内容"
-              />
-            )}
-          </Form.Item>
-          <Form.Item>
+          <div className={'ant-form-item-label'}>
+            <label style={{'lineHeight':'40px','color':'rgba(0,0,0,0.85)'}} htmlFor="tag" className="ant-form-item-required" title="文章内容">文章内容</label>
+          </div>
+          <Editor className="my-editor"
+                  subfield = {true}
+                  preview = {true}
+                  addImg = {(file) => this.uploadHandler(file)}
+                  value={this.state.editorValue} onChange={(value) => this.handleChange(value)} />
+          <Form.Item className={'button-wrap'}>
             <Button size="large" type="primary" htmlType="submit">发布</Button>
           </Form.Item>
         </Form>

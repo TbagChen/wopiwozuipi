@@ -59,6 +59,10 @@ const APICONFIG = {
   deleteArticle:{   //删除文章
     path:'/article/deleteArticle'
   },
+  getOneWordEvery:{  //获取每日一句
+    path:'/dsapi',
+    host:'http://open.iciba.com'
+  }
 }
 
 export default APICONFIG
