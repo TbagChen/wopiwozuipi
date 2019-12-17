@@ -1,11 +1,6 @@
 .blogDetail-wrap{
   margin-top: 20px;
   display: flex;
-  @media (max-width: 980px){
-    .blogDetail-wrap-right{
-      display: none;
-    }
-  }
   .blogDetail-wrap-left{
     flex: 1;
     padding: 20px 20px 30px;
@@ -261,5 +256,13 @@
     .dcss h1 { page-break-before: always }
     .dcss h1,.dcss h2,.dcss h3,.dcss h4,.dcss h5,.dcss h6 { page-break-after: avoid }
     .dcss ul,.dcss ol,.dcss dl { page-break-before: avoid }
+  }
+}
+@media (max-width: 980px){
+  .blogDetail-wrap{
+    display: block;
+    .blogDetail-wrap-right{
+      display: none;
+    }
   }
 }

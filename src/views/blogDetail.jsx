@@ -4,7 +4,7 @@ import {Spin,Button,message,Modal,Icon,Input} from 'antd'
 import Cookies from 'js-cookie'
 import LoginModal from '../components/loginModal'
 import CodeBlock from '../components/CodeBlock'
-import MarkdownNavbar from "../components/MarkdownNavbar";
+import ImageBlock from '../components/ImageBlock'
 import { Anchor } from 'antd';
 import MarkNav from 'markdown-navbar';
 import 'markdown-navbar/dist/navbar.css';
@@ -294,6 +294,9 @@ class BlogDetail extends React.Component{
   goUser(params){  // 去用户个人信息页面
     this.props.history.push('/user/'+params.u_id)
   }
+  imgClick(){
+    console.log('dianjile')
+  }
   render(){
     return(
       <div className="blogDetail-wrap">
@@ -334,7 +337,8 @@ class BlogDetail extends React.Component{
                 <div className="article-content dcss">
                   <ReactMarkdown source={this.state.articleDetail.article_content}
                                  renderers={{
-                                   code: CodeBlock
+                                   code: CodeBlock,
+                                   image:ImageBlock
                                  }}
                                  escapeHtml={false}></ReactMarkdown>
                 </div>
