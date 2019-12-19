@@ -1,6 +1,7 @@
 import React from 'react'
-import {Empty,Skeleton,message,Modal} from 'antd'
+import {Empty,Skeleton,message,Modal,Button} from 'antd'
 import Cookies from 'js-cookie'
+import utils  from '../../utils'
 const confirm = Modal.confirm;
 export default class Articles extends React.Component{
   constructor(props){
@@ -71,31 +72,9 @@ export default class Articles extends React.Component{
       onCancel() {
       },
     });
-    /*fetch.post("deleteArticle",{
-      id:params.id,
-      token:this.state.loginInfo.token
-    }).then(res=>{
-      if(res.code === '200'){
-        message.success('删除成功～')
-        this.getBlogList()
-      }else{
-        message.info(res.msg)
-      }
-    })*/
   }
-  showDeleteConfirm(callback) {
-    confirm({
-      title: '确认删除此文章吗?',
-      content: '删除后不可恢复',
-      okText: '确认',
-      okType: 'danger',
-      cancelText: '取消',
-      onOk() {
-        callback()
-      },
-      onCancel() {
-      },
-    });
+  editArticle(params){
+    this.props.history.push('/writeBlog?id='+params.id)
   }
   render(){
     return(
@@ -127,7 +106,10 @@ export default class Articles extends React.Component{
                         <div className="tc-bottom">
                           {
                             (this.state.loginInfo&&this.state.loginInfo.u_id === this.props.match.params.u_id)&&(
-                              <button onClick={this.deleteArticle.bind(this,item)}>删除</button>
+                              <div className="tc-bottom-wrap">
+                                <Button size={'small'} onClick={this.deleteArticle.bind(this,item)}>删除</Button>
+                                <Button className={'edit-button'} size={'small'} onClick={() => this.editArticle(item)}>编辑</Button>
+                              </div>
                             )
                           }
                         </div>

@@ -52,7 +52,6 @@ class CreateFetch extends React.Component {
     /*if(API[url].host){
       this.host = API[url].host
     }*/
-    console.log(this.host)
     let hostName = API[url].host ? API[url].host : this.host
     let res = await fetch(hostName + API[url].path + this.body, this.lists);
     if (res.status === 401) {

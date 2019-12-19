@@ -124,6 +124,17 @@
           font-size: 15px;
         }
       }
+      .tc-bottom{
+        .tc-bottom-wrap{
+          text-align: right;
+          .ant-btn-sm{
+            font-size: 12px;
+          }
+          .edit-button{
+            margin-left: 10px;
+          }
+        }
+      }
     }
   }
   .follows-wrap-s{

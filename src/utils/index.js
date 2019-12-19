@@ -33,6 +33,9 @@ const utils = {
     })
 
   },
+  getUrlKey(name) {   //获取地址栏的参数
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+  },
   formatDate(now, t) {//时间转换
     let date = new Date(parseInt(now));
     let Y,M,D,h,m,s;

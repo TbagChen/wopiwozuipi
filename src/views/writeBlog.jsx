@@ -25,6 +25,7 @@ class WriteBlog extends React.Component{
       visible:false,
       tagName:'',
       loginInfo:'',
+      type:'create',
       editorState:'',
       editorValue:''
     }
@@ -34,6 +35,14 @@ class WriteBlog extends React.Component{
     this.onChange = this.onChange.bind(this)
     this.uploadHandler = this.uploadHandler.bind(this)
     this.beforeUpload = this.beforeUpload.bind(this)
+  }
+  componentWillMount(){
+    if(utils.getUrlKey('id')){
+      this.setState({
+        type:'edit'
+      })
+      this.getArticleDetail(utils.getUrlKey('id'))
+    }
   }
   componentDidMount () {
     if(Cookies.get('loginInfo')){
@@ -61,15 +70,18 @@ class WriteBlog extends React.Component{
     }
     this.props.form.validateFields((error, values) => {
       if (!error) {
-        const submitData = {
+        let submitData = {
           token:JSON.parse(Cookies.get('loginInfo')).token,
+          type:this.state.type,
           u_id:this.state.loginInfo.u_id,
           article_title: values.title,
           article_tag_id:values.tag,
           article_text: this.state.editorValue, // or values.content.toHTML()
           article_content: this.state.editorValue // or values.content.toHTML()
         }
-        //console.log(values.tag)
+        if(this.state.type=='edit'){
+          submitData.id = utils.getUrlKey('id')
+        }
         fetch.post('publish',submitData).then(res=>{
           if(res.code === '200'){
             dropByCacheKey('BlogIndexComponent')
@@ -81,6 +93,24 @@ class WriteBlog extends React.Component{
       }
     })
 
+  }
+  getArticleDetail(params){
+    fetch.get('getArticleById',{
+      id:params,
+      u_id:Cookies.get('loginInfo')?JSON.parse(Cookies.get('loginInfo')).u_id:''
+    }).then(res=>{
+      this.props.form.setFieldsValue({
+        title: res.data.article_title,
+        tag: res.data.article_tag_id,
+      })
+      this.setState({
+        editorValue:res.data.article_content
+      })
+      /*this.setState({
+        articleDetail:res.data,
+        hasFollowed:res.data.hasFollowed
+      })*/
+    })
   }
   getTagList(params){
     fetch.get('getTagList',{
@@ -142,9 +172,7 @@ class WriteBlog extends React.Component{
     fetch.get('getQiniuToken',{
       token:JSON.parse(Cookies.get('loginInfo')).token
     }).then(res=>{
-      console.log(res)
       utils.uploadFile(params,res.data.qiniuToken).then(res=>{
-        console.log(res)
         this.setState({
           imageUrl:'http://img.xuweijin.com/'+res
         })
@@ -170,7 +198,6 @@ class WriteBlog extends React.Component{
     })
   }
   handleChange(value){
-    console.log(value)
     this.setState({
       editorValue:value
     })
@@ -218,7 +245,7 @@ class WriteBlog extends React.Component{
                   addImg = {(file) => this.uploadHandler(file)}
                   value={this.state.editorValue} onChange={(value) => this.handleChange(value)} />
           <Form.Item className={'button-wrap'}>
-            <Button size="large" type="primary" htmlType="submit">发布</Button>
+            <Button size="large" type="primary" htmlType="submit">{this.state.type=='create'?'发布':'更新'}</Button>
           </Form.Item>
         </Form>
         <Modal
