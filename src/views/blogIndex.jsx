@@ -137,7 +137,7 @@ class BlogIndexComponent extends React.Component{
       </div>
     )
     return(
-      <div >
+      <div className="blog-ul-wrap">
         {/*<div><button onClick={this.addIdF.bind(this)}>添加state</button></div>
         u_id:{this.props.userInfo.id}*/}
         <ul className="blog-ul" >

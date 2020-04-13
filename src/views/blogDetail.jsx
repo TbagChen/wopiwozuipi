@@ -62,7 +62,7 @@ class BlogDetail extends React.Component{
     }
     this.getArticleDetail()
     this.getCommentList()
-    //this.getEveryDay()
+    this.getEveryDay()
   }
   changeText(e){
     this.setState({
@@ -424,11 +424,11 @@ class BlogDetail extends React.Component{
           )}
         </div>
         <div className="blogDetail-wrap-right">
-          {/*<div className="blogDetail-author-wrap">
+          <div className="blogDetail-author-wrap">
             <div className="everyDay-title">每日一句</div>
-            <p>{this.state.everydayWord.ciba}</p>
-            <p>{this.state.everydayWord.cibaEn}</p>
-          </div>*/}
+            <p>{this.state.everydayWord.hitokoto}</p>
+            <p className="everyDay-source">出自：{this.state.everydayWord.from}</p>
+          </div>
           <div>
             {this.state.articleDetail === '' ? (
               <div className="load-wrap"><Spin size="large"/></div>

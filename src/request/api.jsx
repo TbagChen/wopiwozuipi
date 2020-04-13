@@ -60,8 +60,8 @@ const APICONFIG = {
     path:'/article/deleteArticle'
   },
   getOneWordEvery:{  //获取每日一句
-    path:'/dsapi',
-    host:'http://open.iciba.com'
+    path:'/?c=k&c=i&c=d&c=e',
+    host:'https://v1.hitokoto.cn'
   }
 }
 

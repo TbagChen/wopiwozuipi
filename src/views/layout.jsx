@@ -7,12 +7,16 @@ export default class Layout extends React.Component{
   }
   render(){
     return(
-      <div className="layout-wrap-big">
-        <Header props={this.props}></Header>
-        <div className="layout-wrap">
-          {this.props.children}
+      <div>
+        <div className="random-bg"></div>
+        <div className="layout-wrap-big">
+          <Header props={this.props}></Header>
+          <div className="layout-wrap">
+            {this.props.children}
+          </div>
         </div>
       </div>
+
     )
   }
 }

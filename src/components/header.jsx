@@ -2,9 +2,11 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import '../themes/index/header.scss'
 import Cookies from 'js-cookie'
-import { Menu, Dropdown, Avatar, Icon ,Row, Col, Modal} from 'antd';
+import { Menu, Dropdown, Avatar, Icon ,Row, Col, Modal, message} from 'antd';
 import LoginModal from '../components/loginModal'
 import {connect} from 'react-redux'
+
+const socket = require('socket.io-client')('http://localhost:3003',{transports:['websocket','xhr-polling','jsonp-polling']});
 
 class Header extends React.Component {
   constructor(props){
@@ -18,10 +20,24 @@ class Header extends React.Component {
     this.toPersonalCenter = this.toPersonalCenter.bind(this)
   }
   componentDidMount(){
+
+    socket.on('add user', (data) => {
+      console.log(data)
+    });
+    socket.on('new message', (data) => {
+      console.log(data)
+    });
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
+      },() => {
+        console.log(this.state.loginInfo.u_id)
+        socket.on(this.state.loginInfo.u_id, (data) => {
+          message.info('您有一条新消息哦~')
+
+        });
       })
+
     }
   }
   logout(){
