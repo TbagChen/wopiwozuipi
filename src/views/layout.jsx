@@ -3,8 +3,6 @@ import Header from '../components/header'
 
 export default class Layout extends React.Component{
 
-  componentWillMount(){
-  }
   render(){
     return(
       <div>

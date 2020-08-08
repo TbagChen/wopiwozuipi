@@ -16,7 +16,7 @@ class CodeBlock extends PureComponent {
     language: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
     // 注册要高亮的语法，
     // 注意：如果不设置打包后供第三方使用是不起作用的
     SyntaxHighlighter.registerLanguage("jsx", jsx);

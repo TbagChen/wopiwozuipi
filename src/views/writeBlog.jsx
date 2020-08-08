@@ -1,13 +1,7 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import 'braft-editor/dist/index.css'
-import 'braft-extensions/dist/code-highlighter.css'
 import '../themes/article/writeBlog.scss'
-import BraftEditor from 'braft-editor'
-import ReactMarkdown from 'react-markdown'
 import Editor from 'for-editor'
-//import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
-import { ContentUtils } from 'braft-utils'
 import { dropByCacheKey } from 'react-router-cache-route'
 import { Form, Input,Select, Button, message, Modal,Upload,Icon } from 'antd'
 import utils from "../utils";
@@ -16,7 +10,6 @@ const { Option } = Select;
 /*const options = {
 
 }*/
-//BraftEditor.use(CodeHighlighter(options))
 class WriteBlog extends React.Component{
   constructor(props){
     super(props)
@@ -36,15 +29,13 @@ class WriteBlog extends React.Component{
     this.uploadHandler = this.uploadHandler.bind(this)
     this.beforeUpload = this.beforeUpload.bind(this)
   }
-  componentWillMount(){
+  componentDidMount () {
     if(utils.getUrlKey('id')){
       this.setState({
         type:'edit'
       })
       this.getArticleDetail(utils.getUrlKey('id'))
     }
-  }
-  componentDidMount () {
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))

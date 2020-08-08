@@ -17,7 +17,7 @@ export default class Tags extends React.Component{
     this.getBlogList = this.getBlogList.bind(this)
     this.getTagsList = this.getTagsList.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     this.getBlogList()
     this.getTagsList()
     let host1 = window.location.href;

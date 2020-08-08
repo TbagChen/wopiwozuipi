@@ -14,14 +14,12 @@ export default class Follows extends React.Component{
     }
     this.getUserList = this.getUserList.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
       })
     }
-  }
-  componentDidMount(){
     this.getUserList()
   }
   getUserList(){

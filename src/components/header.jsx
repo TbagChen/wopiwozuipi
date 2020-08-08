@@ -6,7 +6,8 @@ import { Menu, Dropdown, Avatar, Icon ,Row, Col, Modal, message} from 'antd';
 import LoginModal from '../components/loginModal'
 import {connect} from 'react-redux'
 
-const socket = require('socket.io-client')('http://localhost:3003',{transports:['websocket','xhr-polling','jsonp-polling']});
+//const socket = require('socket.io-client')('http://localhost:3003',{transports:['websocket','xhr-polling','jsonp-polling']});
+const socket = require('socket.io-client')('https://www.xuweijin.com',{transports:['websocket','xhr-polling','jsonp-polling']});
 
 class Header extends React.Component {
   constructor(props){
@@ -20,7 +21,7 @@ class Header extends React.Component {
     this.toPersonalCenter = this.toPersonalCenter.bind(this)
   }
   componentDidMount(){
-
+    console.log(this.props.host)
     socket.on('add user', (data) => {
       console.log(data)
     });
@@ -95,7 +96,7 @@ class Header extends React.Component {
           <Row type={'flex'}>
             <Col span={16}>
               <div className="header-left">
-                <NavLink to={'/'} className="text-wrap">
+                <NavLink to={'/'} >
                   <svg width="130" height="60">
                     <text textAnchor="middle" x="50%" y="50%" className="text text-1">
                       鲨鱼辣椒
@@ -135,12 +136,12 @@ class Header extends React.Component {
                   {
                     this.props.userInfo.userInfo === ''?(
                       <div>
-                        <NavLink className="mr-20" to={'/login'}>登录</NavLink>
+                        <NavLink to={'/login'}><span className="mr-20">登录</span></NavLink>
                         <NavLink to={'/register'}>注册</NavLink>
                       </div>
                     ):(
                       <div>
-                        <NavLink className="mr-20" to={'/writeBlog'}>写文章</NavLink>
+                        <NavLink  to={'/writeBlog'}><span className="mr-20">写文章</span></NavLink>
                         <Dropdown trigger={['click']} overlay={menu} placement="bottomCenter">
                           {this.props.userInfo.userInfo.avater?(<span className="avater-a"><img src={this.props.userInfo.userInfo.avater} className="avater-img" alt="头像"/></span>):(<Avatar size="large" icon="user" />)}
                         </Dropdown>
@@ -169,7 +170,7 @@ class Header extends React.Component {
 }
 
 const mapStatetoProps = (state) => {
-  return state
+  return {host:state.host,userInfo:state.userInfo}
 }
 
 export default connect(

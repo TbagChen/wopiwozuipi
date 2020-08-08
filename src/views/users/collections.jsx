@@ -14,7 +14,7 @@ export default class Collections extends React.Component{
     //this.handleCancel = this.handleCancel.bind(this)
     this.getBlogList = this.getBlogList.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     this.getBlogList()
     let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();

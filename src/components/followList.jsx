@@ -16,7 +16,7 @@ export default class FollowList extends React.Component{
     }
     this.handleCancel = this.handleCancel.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();
     if (host1.match('xuweijin.com')) {

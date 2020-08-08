@@ -19,6 +19,8 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const paths = require('./paths');
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
@@ -225,6 +227,17 @@ module.exports = function(webpackEnv) {
           // Enable file caching
           cache: true,
           sourceMap: shouldUseSourceMap,
+        }),
+        new UglifyJsPlugin({
+          parallel: 4,
+          uglifyOptions: {
+            output: {
+              comments: false,
+              beautify: false,
+            },
+            warnings: false
+          },
+          cache: true,
         }),
         // This is only used in production mode
         new OptimizeCSSAssetsPlugin({
@@ -564,6 +577,15 @@ module.exports = function(webpackEnv) {
             files: manifestFiles,
           };
         },
+      }),
+      new CompressionPlugin({
+        asset: '[path].gz[query]', //目标资源名称。[file] 会被替换成原资源。[path] 会被替换成原资源路径，[query] 替换成原查询字符串
+        algorithm: 'gzip',//算法
+        test: new RegExp(
+          '\\.(js|css)$'    //压缩 js 与 css
+        ),
+        threshold: 10240,//只处理比这个值大的资源。按字节计算
+        minRatio: 0.8//只有压缩率比这个值小的资源才会被处理
       }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how Webpack interprets its code. This is a practical

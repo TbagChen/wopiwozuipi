@@ -8,7 +8,6 @@ import ImageBlock from '../components/ImageBlock'
 import { Anchor } from 'antd';
 import MarkNav from 'markdown-navbar';
 import 'markdown-navbar/dist/navbar.css';
-import 'braft-editor/dist/index.css'
 import ReactMarkdown from 'react-markdown'
 import {connect} from 'react-redux';
 const { TextArea } = Input;
@@ -43,7 +42,7 @@ class BlogDetail extends React.Component{
     this.cancelReplyArticle = this.cancelReplyArticle.bind(this)
     this.replyComment = this.replyComment.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     let host1 = window.location.href;
     host1 = host1.toLocaleLowerCase();
     if (host1.match('xuweijin.com')) {

@@ -11,7 +11,7 @@ import './themes/themes.scss'
 
 
 class AppComponent extends React.Component{
-  componentWillMount(){
+  componentDidMount(){
     if(Cookies.get('loginInfo')){
       this.props.addUserInfo(JSON.parse(Cookies.get('loginInfo')))
     }let host1 = window.location.href;
@@ -23,9 +23,6 @@ class AppComponent extends React.Component{
 
       this.props.addHost('http://localhost:3003')
     }
-  }
-  componentDidMount(){
-
   }
   render(){
     return(

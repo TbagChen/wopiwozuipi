@@ -12,7 +12,6 @@ class FormLogin extends React.Component{
   handleSubmit(e){
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      const _this = this
       if (!err) {
         fetch.post('login',{
           userName:values.userName,
@@ -70,9 +69,6 @@ class FormLogin extends React.Component{
 const FormLoginComponent = Form.create({ name: 'normal_login' })(FormLogin);
 
 export default class LoginModal extends React.Component{
-  componentWillMount(){
-    //this.props.handleCancel()
-  }
   render(){
     return(
       <FormLoginComponent {...this.props}></FormLoginComponent>

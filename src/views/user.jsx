@@ -28,7 +28,7 @@ class User extends React.Component{
     this.getBlogList(key)
     //this.getUserBasicInfo(key)
   }
-  componentWillMount(){
+  componentDidMount(){
     console.log(this.props)
     const params = {
       u_id:this.props.match.params.u_id,

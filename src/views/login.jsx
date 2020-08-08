@@ -101,7 +101,7 @@ class LoginComponent extends React.Component {
     this.getFileData = this.getFileData.bind(this)
     this.beforeUpload = this.beforeUpload.bind(this)
   }
-  componentWillMount(){
+  componentDidMount(){
     if(Cookies.get('loginInfo')){
       this.setState({
         loginInfo:JSON.parse(Cookies.get('loginInfo'))
